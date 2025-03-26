@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20250326152207_ModeMigration")]
-    partial class ModeMigration
+    [Migration("20250326161258_ChangeNamingMode")]
+    partial class ChangeNamingMode
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,7 +86,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Modes");
+                    b.ToTable("Mode");
                 });
 
             modelBuilder.Entity("API.Entities.Game", b =>

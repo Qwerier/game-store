@@ -83,7 +83,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Modes");
+                    b.ToTable("Mode");
                 });
 
             modelBuilder.Entity("API.Entities.Game", b =>

@@ -183,15 +183,12 @@ namespace backend.Data
 
             var modes = new List<Mode>{
                 new(){
-                    Id = 0,
                     PlayerMode = "Single-player"
                 },
                 new(){
-                    Id = 1,
                     PlayerMode = "Multiplayer"
                 },
                 new(){
-                    Id = 2,
                     PlayerMode = "Both"
                 }
             };
