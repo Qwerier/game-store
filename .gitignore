@@ -1,0 +1,8 @@
+API/obj
+API/bin
+API/appsettings.json
+API/appsettings.Development.json
+
+.vs
+.vscode
+commit.txt
