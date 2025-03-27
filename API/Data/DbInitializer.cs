@@ -16,7 +16,9 @@ namespace backend.Data
             var context = scope.ServiceProvider.GetRequiredService<StoreContext>()
                 ?? throw new InvalidOperationException("Failed to retrieve store context");
             SeedModeData(context);
-            SeedModeData(context);
+            SeedGameData(context);
+
+            Console.WriteLine("arrived");
         }
 
         private static void SeedGameData(StoreContext context)
@@ -38,7 +40,8 @@ namespace backend.Data
                     Developer = "Ubisoft Montreal",
                     Genre="First-person shooter",
                     QuantityInStock = 100,
-                    PlayerModeId=0
+                    PlayerModeId=1,
+                    // PlayerMode=new Mode { Id = 0, PlayerMode= "SinglePlayer" }
                 },
                 new() {
                     Name = "Red Dead Redemption 2",
@@ -50,8 +53,8 @@ namespace backend.Data
                     Developer = "Rockstar Games",
                     Genre ="Action-adventure",
                     QuantityInStock = 100,
-                    PlayerModeId=2
-
+                    PlayerModeId=3,
+                    // PlayerMode=new Mode { Id = 2, PlayerMode= "Both" }
                 },
                 new() {
                     Name = "Cyberpunk 2077",
@@ -64,7 +67,8 @@ namespace backend.Data
                     Developer = "CD Projekt",
                     Genre="Action role-playing",
                     QuantityInStock = 100,
-                    PlayerModeId=2
+                    PlayerModeId=3,
+                    // PlayerMode=new Mode { Id = 2, PlayerMode= "Both" }
                 },
                 new() {
                     Name = "Baldur's Gate 3",
@@ -77,7 +81,8 @@ namespace backend.Data
                     Developer = "Larian Studios",
                     Genre= "Role-playing",
                     QuantityInStock = 100,
-                    PlayerModeId=2
+                    PlayerModeId=3,
+                    // PlayerMode=new Mode { Id = 2, PlayerMode= "Both" }
                 },
                 new() {
                     Name = "Black Myth: Wukong",
@@ -90,7 +95,8 @@ namespace backend.Data
                     Developer = "Game Science",
                     Genre="Action role-playing",
                     QuantityInStock = 100,
-                    PlayerModeId=0
+                    PlayerModeId=1,
+                    // PlayerMode=new Mode { Id = 0, PlayerMode= "Singleplayer" }
                 },
                 new() {
                     Name = "Grand Theft Auto V",
@@ -103,7 +109,8 @@ namespace backend.Data
                     Developer = "Rockstar North",
                     Genre="Action-adventure",
                     QuantityInStock = 100,
-                    PlayerModeId=2
+                    PlayerModeId=3,
+                    // PlayerMode=new Mode { Id = 2, PlayerMode= "Both" }
                 },
                 new() {
                     Name = "Elden Ring",
@@ -116,7 +123,8 @@ namespace backend.Data
                     Developer = "FromSoftware",
                     Genre="Action role-playing",
                     QuantityInStock = 100,
-                    PlayerModeId=2
+                    PlayerModeId=3,
+                    // PlayerMode=new Mode { Id = 2, PlayerMode= "Both" }
                 },
                 new() {
                     Name = "Call of Duty: Black Ops Cold War",
@@ -129,7 +137,8 @@ namespace backend.Data
                     Developer = "Treyarch",
                     Genre="First-person shooter",
                     QuantityInStock = 100,
-                    PlayerModeId= 1,
+                    PlayerModeId=2,
+                    // PlayerMode=new Mode { Id = 1, PlayerMode= "Multiplayer" }
                 },
                 new() {
                     Name = "Hogwarts Legacy",
@@ -142,7 +151,8 @@ namespace backend.Data
                     Developer = "Avalanche Software",
                     Genre="First-person shooter",
                     QuantityInStock = 100,
-                    PlayerModeId=0
+                    PlayerModeId=1,
+                    // PlayerMode=new Mode { Id = 0, PlayerMode= "Singleplayer" }
                 },
                 new() {
                     Name = "Overwatch",
@@ -155,7 +165,8 @@ namespace backend.Data
                     Developer = "Blizzard Entertainment",
                     Genre = "First-person shooter",
                     QuantityInStock = 100,
-                    PlayerModeId=1
+                    PlayerModeId=2,
+                    // PlayerMode=new Mode { Id = 1, PlayerMode= "Multiplayer" }
                 },
                 new() {
                     Name = "Indiana Jones and the Great Circle",
@@ -168,7 +179,8 @@ namespace backend.Data
                     Developer = "Machine Games",
                     Genre = "Action-adventure",
                     QuantityInStock = 100,
-                    PlayerModeId=0
+                    PlayerModeId=1,
+                    // PlayerMode=new Mode { Id = 0, PlayerMode= "Singleplayer" }
                 },
             };
 
@@ -183,12 +195,15 @@ namespace backend.Data
 
             var modes = new List<Mode>{
                 new(){
+                    Id=1,
                     PlayerMode = "Single-player"
                 },
                 new(){
+                    Id=2,
                     PlayerMode = "Multiplayer"
                 },
                 new(){
+                    Id=3,
                     PlayerMode = "Both"
                 }
             };

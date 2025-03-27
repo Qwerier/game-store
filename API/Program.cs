@@ -4,11 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection") 
+                       ?? throw new InvalidOperationException("Database connection string is missing.");
 // Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<StoreContext>(options => {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseNpgsql(connectionString);
 });
 
 
