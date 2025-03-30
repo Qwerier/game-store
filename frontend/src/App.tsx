@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { Game } from './models/Game'
+import { Game } from './app/models/Game'
+import Catalog from './features/catalog/Catalog';
 
 function App() {
   const [games, setGames] = useState<Game[]>([]);
@@ -17,14 +18,7 @@ function App() {
       <div>
         GameStore
       </div>
-
-      <ul>
-        {
-          games.map((game,index) => (
-            <li key={index}>{game.id} - {game.playerModeId} - {game.playerMode.playerMode}</li>
-          ))
-        }
-      </ul>
+      <Catalog games={games} />
     </>
   )
 }
