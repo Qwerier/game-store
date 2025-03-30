@@ -23,7 +23,7 @@ namespace API.Controllers
 
         [HttpGet]
         public async Task<ActionResult<List<Game>>> GetGames(){
-            return await context.Games.Include(x=> x.PlayerMode).ToListAsync();
+            return await context.Games.Include(x=> x.PlayerMode).AsNoTracking().ToListAsync();
         }
 
         [HttpGet("{id}")]
