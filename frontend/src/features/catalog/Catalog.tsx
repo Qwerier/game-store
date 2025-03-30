@@ -1,10 +1,18 @@
+import { useEffect, useState } from "react";
 import { Game } from "../../app/models/Game"
 
-export type Props = {
-    games: Game[]
-}
 
-export default function Catalog({games}: Props) {
+export default function Catalog() {
+  
+  const [games, setGames] = useState<Game[]>([]);
+
+  useEffect(() => {
+        fetch("https://localhost:5200/api/games")
+        .then(response => response.json())
+        .then(data => setGames(data))
+        .catch(err => console.log(err))
+  }, []);
+  
   return (
     <>
     <ul>
