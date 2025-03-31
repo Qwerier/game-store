@@ -1,11 +1,11 @@
 import { Box, Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import "./app/layout/App.css";
-import Catalog from "./features/catalog/Catalog";
 import NavBar from "./app/layout/Navbar";
 import { useState } from "react";
+import { Outlet } from "react-router-dom";
 
 function App() {
-  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [darkMode, setDarkMode] = useState<boolean>(true);
 
   const palleteType = darkMode ? "dark": "light"
 
@@ -35,7 +35,7 @@ function App() {
           : 'radial-gradient(circle, #baecf9, #f0f9ff)',
       }}>
         <Container maxWidth="xl" sx ={{pt:14}}>
-            <Catalog />
+            <Outlet /> {/* filler for child components */}
         </Container>
       </Box>
     </ThemeProvider>
