@@ -4,7 +4,7 @@ export default function NavBar() {
     return (
         <AppBar position='fixed' >
             <Toolbar>
-                <Typography variant="h6"></Typography>
+                <Typography variant="h6">GameStore</Typography>
             </Toolbar>
         </AppBar>
     )

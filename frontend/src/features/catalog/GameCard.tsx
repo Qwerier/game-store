@@ -17,7 +17,6 @@ export default function GameCard({ game }: Props) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-evenly',
-          backgroundColor: 'navajowhite'
         }}
       >
         <CardMedia
