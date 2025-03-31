@@ -1,16 +1,16 @@
-import './app/layout/App.css'
-import Catalog from './features/catalog/Catalog';
+import { Container, Typography } from "@mui/material";
+import "./app/layout/App.css";
+import Catalog from "./features/catalog/Catalog";
 
 function App() {
-
   return (
-    <>
-      <div>
-        GameStore
+    <Container maxWidth='xl'>
+      <div className="center-spacing">
+        <Typography variant='h3'>GameStore</Typography>
+        <Catalog />
       </div>
-      <Catalog/>
-    </>
-  )
+    </Container>
+  );
 }
 
-export default App
+export default App;
