@@ -1,5 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import { Game } from "../../app/models/Game";
+import { Link } from "react-router-dom";
 
 type Props = {
   game: Game;
@@ -29,7 +30,7 @@ export default function GameCard({ game }: Props) {
           <Typography
             gutterBottom
             sx={{color: 'primary.main'}}
-            variant='subtitle2'
+            variant= 'subtitle1'
             >
               {game.name.toUpperCase()}
           </Typography>
@@ -44,7 +45,7 @@ export default function GameCard({ game }: Props) {
         <CardActions
           sx={{justifyContent: 'space-between'}}
         >
-          <Button>Details</Button>
+          <Button component={Link} to={`/catalog/${game.id}`} >Details</Button> {/* Link from react-router-dom as we're retrieving the id */}
         </CardActions>
       </Card>
     </>
