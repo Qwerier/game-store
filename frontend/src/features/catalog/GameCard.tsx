@@ -21,7 +21,8 @@ export default function GameCard({ game }: Props) {
         }}
       >
         <CardMedia
-          sx={{height: 240, backgroundSize: 'cover'}}
+          component='img'
+          sx={{height: 280, backgroundSize: 'cover' , objectFit: 'contain' }}
           image={game.pictureUrl}
           title={game.name}
         />

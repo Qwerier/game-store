@@ -33,9 +33,9 @@ namespace backend.Data
                     Name = "Assassin's Creed",
                     Description =
                         "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
-                    Price = 30000,
+                    Price = 8M,
                     ReleaseDate=DateTime.SpecifyKind(DateTime.Parse("13/11/2007"), DateTimeKind.Utc),
-                    PictureUrl = "/images/games/sb-core2.png",
+                    PictureUrl = "/images/games_artwork/Assassin's_Creed.jpg",
                     Publisher = "Ubisoft",
                     Developer = "Ubisoft Montreal",
                     Genre="First-person shooter",
@@ -46,9 +46,9 @@ namespace backend.Data
                 new() {
                     Name = "Red Dead Redemption 2",
                     Description = "Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.",
-                    Price = 1500,
+                    Price = 50.35M,
                     ReleaseDate= DateTime.SpecifyKind(DateTime.Parse("05/11/2019"), DateTimeKind.Utc),
-                    PictureUrl = "/images/games/Red_Dead_Redemption_II.jpg",
+                    PictureUrl = "/images/games_artwork/Red_Dead_Redemption_II.jpg",
                     Publisher = "Rockstar Games",
                     Developer = "Rockstar Games",
                     Genre ="Action-adventure",
@@ -60,9 +60,9 @@ namespace backend.Data
                     Name = "Cyberpunk 2077",
                     Description =
                         "Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.",
-                    Price = 18000,
+                    Price = 18M,
                     ReleaseDate=DateTime.SpecifyKind(DateTime.Parse("10/12/2020"), DateTimeKind.Utc),
-                    PictureUrl = "/images/games/Cyberpunk_2077.jpg",
+                    PictureUrl = "/images/games_artwork/Cyberpunk_2077.jpg",
                     Publisher = "CD Projekt",
                     Developer = "CD Projekt",
                     Genre="Action role-playing",
@@ -74,9 +74,9 @@ namespace backend.Data
                     Name = "Baldur's Gate 3",
                     Description =
                         "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
-                    Price = 30000,
+                    Price = 30M,
                     ReleaseDate=DateTime.SpecifyKind(DateTime.Parse("03/08/2023"), DateTimeKind.Utc),
-                    PictureUrl = "/images/games/sb-core2.png",
+                    PictureUrl = "/images/games_artwork/Baldur's_Gate_3.jpg",
                     Publisher = "Larian Studios",
                     Developer = "Larian Studios",
                     Genre= "Role-playing",
@@ -88,9 +88,9 @@ namespace backend.Data
                     Name = "Black Myth: Wukong",
                     Description =
                         "Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 30000,
+                    Price = 40M,
                     ReleaseDate=DateTime.SpecifyKind(DateTime.Parse("20/08/2024"), DateTimeKind.Utc),
-                    PictureUrl = "/images/games/sb-core2.png",
+                    PictureUrl = "/images/games_artwork/Black_Myth_Wukong.jpg",
                     Publisher = "Game Science",
                     Developer = "Game Science",
                     Genre="Action role-playing",
@@ -102,9 +102,9 @@ namespace backend.Data
                     Name = "Grand Theft Auto V",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 30000,
+                    Price = 25.70M,
                     ReleaseDate=DateTime.SpecifyKind(DateTime.Parse("17/09/2013"), DateTimeKind.Utc),
-                    PictureUrl = "/images/games/sb-core2.png",
+                    PictureUrl = "/images/games_artwork/Grand_Theft_Auto_V.png",
                     Publisher = "Rockstar Games",
                     Developer = "Rockstar North",
                     Genre="Action-adventure",
@@ -116,9 +116,9 @@ namespace backend.Data
                     Name = "Elden Ring",
                     Description =
                         "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
-                    Price = 30000,
+                    Price = 60.35M,
                     ReleaseDate=DateTime.SpecifyKind(DateTime.Parse("25/02/2022"), DateTimeKind.Utc),
-                    PictureUrl = "/images/games/sb-core2.png",
+                    PictureUrl = "/images/games_artwork/Elden_Ring.jpg",
                     Publisher = "Bandai Namco Entertainment",
                     Developer = "FromSoftware",
                     Genre="Action role-playing",
@@ -130,9 +130,9 @@ namespace backend.Data
                     Name = "Call of Duty: Black Ops Cold War",
                     Description =
                         "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
-                    Price = 30000,
+                    Price = 32.5M,
                     ReleaseDate=DateTime.SpecifyKind(DateTime.Parse("13/11/2020"), DateTimeKind.Utc),
-                    PictureUrl = "/images/games/sb-core2.png",
+                    PictureUrl = "/images/games_artwork/BOCW.jpg",
                     Publisher = "Activision",
                     Developer = "Treyarch",
                     Genre="First-person shooter",
@@ -144,9 +144,9 @@ namespace backend.Data
                     Name = "Hogwarts Legacy",
                     Description =
                         "Aenean nec lorem. In porttitor. Donec laoreet nonummy augue..",
-                    Price = 30000,
+                    Price = 32M,
                     ReleaseDate=DateTime.SpecifyKind(DateTime.Parse("10/02/2023"), DateTimeKind.Utc),
-                    PictureUrl = "/images/games/sb-core2.png",
+                    PictureUrl = "/images/games_artwork/Hogwarts_Legacy.jpg",
                     Publisher = "Warner Bros. Games",
                     Developer = "Avalanche Software",
                     Genre="First-person shooter",
@@ -158,9 +158,9 @@ namespace backend.Data
                     Name = "Overwatch",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 20000,
+                    Price = 15.50M,
                     ReleaseDate=DateTime.SpecifyKind(DateTime.Parse("24/05/2016"), DateTimeKind.Utc),
-                    PictureUrl = "/images/games/sb-ang1.png",
+                    PictureUrl = "/images/games_artwork/Overwatch.jpg",
                     Publisher = "Blizzard Entertainment",
                     Developer = "Blizzard Entertainment",
                     Genre = "First-person shooter",
@@ -172,9 +172,9 @@ namespace backend.Data
                     Name = "Indiana Jones and the Great Circle",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 30,
+                    Price = 30M,
                     ReleaseDate=DateTime.SpecifyKind(DateTime.Parse("09/12/2024"), DateTimeKind.Utc),
-                    PictureUrl = "/images/games/sb-ang1.png",
+                    PictureUrl = "/images/games_artwork/Indiana_Jones_and_the_Great_Circle.jpg",
                     Publisher = "Bethesda Softworks",
                     Developer = "Machine Games",
                     Genre = "Action-adventure",
@@ -204,7 +204,7 @@ namespace backend.Data
                 },
                 new(){
                     Id=3,
-                    PlayerMode = "Both"
+                    PlayerMode = "Single- and Multi- player"
                 }
             };
 
