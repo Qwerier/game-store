@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import { Game } from './app/models/Game'
+import './app/layout/App.css'
 import Catalog from './features/catalog/Catalog';
 
 function App() {
