@@ -21,12 +21,14 @@ export default function GameDetails() {
 
   useEffect(() => {
     fetch(`https://localhost:5200/api/games/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setGame(data);
-        console.log(data);
+      .then((response) => {
+        if(response.status === 404) return null;
+        return response.json();
       })
-      .catch((err) => console.log(err))
+      .then((data) => {
+        setGame(data)
+      })
+      .catch((err) => console.log(err));
   }, [id]);
 
   // temporary solution
@@ -40,70 +42,75 @@ export default function GameDetails() {
     { label: "Description", text: game.description },
     { label: "Developer", text: game.developer },
     { label: "Genre", text: game.genre },
-    { label: "Player Mode", text: game.playerModeId },
+    { label: "Player Mode", text: game.playerMode.playerMode },
     { label: "Publisher", text: game.publisher },
-    { label: "Release Date", text: game.releaseDate }
+    {
+      label: "Release Date",
+      text: game.releaseDate ? game.releaseDate.split("T")[0] : "N/A",
+    },
   ];
 
   return (
-    <Grid container spacing={6} maxWidth="lg" sx={{ mx: "auto" }}>
-      <Grid size={3}>
-        <img
-          src={game?.pictureUrl}
-          alt={game?.name}
-          style={{ width: "100%" }}
-        />
-      </Grid>
-      <Grid size={6}>
-        <Typography sx={{ fontSize: "2rem" }}>{game?.name}</Typography>
-        <Divider />
-        <Typography sx={{ fontSize: "2rem" }}>
-          <Euro sx={{ fontSize: "1.5rem" }} />
-          {game?.price ? game.price.toFixed(2) : "N/A"}
-        </Typography>
-
-        <TableContainer>
-          <Table>
-            <TableBody>
-              {gameDetails.map((detail, index) => (
-                <TableRow key={index}>
-                  <TableCell sx={{ fontWeight: "bold" }}>
-                    {detail.label}
-                  </TableCell>
-                  <TableCell>{detail.text}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        <Grid
-          container
-          sx={{ display: "flex", flexDirection: "column" }}
-          spacing={2}
-          marginY={3}
-        >
-          <TextField
-            variant="outlined"
-            type="number"
-            label="Quantity in basket"
-            sx={{ width: "20vh" }}
-            defaultValue={0}
+    <>
+      <Grid container spacing={6} maxWidth="lg" sx={{ mx: "auto" }}>
+        <Grid size={3}>
+          <img
+            src={game?.pictureUrl}
+            alt={game?.name}
+            style={{ width: "100%" }}
           />
         </Grid>
-
         <Grid size={6}>
-          <Button
-            color="primary"
-            size="large"
-            variant="contained"
-            fullWidth
-            sx={{ width: "20vh" }}
+          <Typography sx={{ fontSize: "2rem" }}>{game?.name}</Typography>
+          <Divider />
+          <Typography sx={{ fontSize: "2rem" }}>
+            <Euro sx={{ fontSize: "1.5rem" }} />
+            {game?.price ? game.price.toFixed(2) : "N/A"}
+          </Typography>
+
+          <TableContainer>
+            <Table>
+              <TableBody>
+                {gameDetails.map((detail, index) => (
+                  <TableRow key={index}>
+                    <TableCell sx={{ fontWeight: "bold" }}>
+                      {detail.label}
+                    </TableCell>
+                    <TableCell>{detail.text}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          <Grid
+            container
+            sx={{ display: "flex", flexDirection: "column" }}
+            spacing={2}
+            marginY={3}
           >
-            Add to Basket
-          </Button>
+            <TextField
+              variant="outlined"
+              type="number"
+              label="Quantity in basket"
+              sx={{ width: "20vh" }}
+              defaultValue={0}
+            />
+          </Grid>
+
+          <Grid size={6}>
+            <Button
+              color="primary"
+              size="large"
+              variant="contained"
+              fullWidth
+              sx={{ width: "20vh" }}
+            >
+              Add to Basket
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }
