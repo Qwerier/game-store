@@ -23,13 +23,19 @@ namespace API.Controllers
 
         [HttpGet]
         public async Task<ActionResult<List<Game>>> GetGames(){
-            return await context.Games.Include(x=> x.PlayerMode).AsNoTracking().ToListAsync();
+            return await context.Games
+                        .Include(x=> x.PlayerMode)
+                        .AsNoTracking()
+                        .ToListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Game>> GetProduct(string id)
         {
-            Game? game = await context.Games.FindAsync(id);
+            Game? game = await context.Games
+                            .Include(g=> g.PlayerMode)
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync(g => g.Id == id);
 
             if (game == null) return NotFound();
 
