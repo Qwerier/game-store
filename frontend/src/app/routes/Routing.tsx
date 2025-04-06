@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../../../App";
-import HomePage from "../../../features/home/HomePage";
-import GameDetails from "../../../features/catalog/GameDetails";
-import Catalog from "../../../features/catalog/Catalog";
-import AboutPage from "../../../features/about/AboutPage";
-import ContactPage from "../../../features/contact/ContactPage";
-import NotFound from "../../../features/NotFound/NotFound";
+import App from "../../App";
+import HomePage from "../../features/home/HomePage";
+import GameDetails from "../../features/catalog/GameDetails";
+import Catalog from "../../features/catalog/Catalog";
+import AboutPage from "../../features/about/AboutPage";
+import ContactPage from "../../features/contact/ContactPage";
+import NotFound from "../../features/NotFound/NotFound";
 
 // defines routes for default path served through RouterProvider in frontend\src\main.tsx
 export const router = createBrowserRouter([
