@@ -11,13 +11,13 @@ export default function Catalog() {
   //     .catch((err) => console.log(err));
   // }, []);
 
-  const {data, isLoading} = useFetchGamesQuery();
+  const {data: games, isLoading} = useFetchGamesQuery();
 
-  if(isLoading || !data) return <div>Loading...</div>
+  if(isLoading || !games) return <div>Loading...</div>
 
   return (
     <>
-      <GameList games={data} />
+      <GameList games={games} />
     </>
   );
 }

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Game } from "../../app/models/Game";
+// import { Game } from "../../app/models/Game";
 import {
   Button,
   Divider,
@@ -14,28 +14,33 @@ import {
   Typography,
 } from "@mui/material";
 import { Euro } from "@mui/icons-material";
+import { useFetchGameDetailsQuery } from "./catalogApi";
+
 
 export default function GameDetails() {
-  const { id } = useParams();
-  const [game, setGame] = useState<Game | null>(null); // could be a non existing product
+  const { id } = useParams<string>();
 
-  useEffect(() => {
-    fetch(`https://localhost:5200/api/games/${id}`)
-      .then((response) => {
-        if(response.status === 404) return null;
-        return response.json();
-      })
-      .then((data) => {
-        setGame(data)
-      })
-      .catch((err) => console.log(err));
-  }, [id]);
+  // const [game, setGame] = useState<Game | null>(null); // could be a non existing product
 
-  // temporary solution
-  if (game === null) {
-    console.log("object is null");
-    return <div>Game not found...</div>;
-  }
+  // useEffect(() => {
+  //   fetch(`https://localhost:5200/api/games/${id}`)
+  //     .then((response) => {
+  //       if(response.status === 404) return null;
+  //       return response.json();
+  //     })
+  //     .then(data => setGame(data))
+  //     .catch(err => console.log(err));
+  // }, [id]);
+
+  // // temporary solution
+  // if (game === null) {
+  //   return <div>Game not found...</div>;
+  // }
+  
+  const {data: game, isLoading} = useFetchGameDetailsQuery(id!);
+
+  if (!game || isLoading) return <div>Game Not Found</div>
+
 
   const gameDetails = [
     { label: "Name", text: game.name },

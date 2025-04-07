@@ -4,6 +4,7 @@ import {
   Badge,
   Box,
   IconButton,
+  LinearProgress,
   List,
   ListItem,
   Switch,
@@ -11,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { useAppSelector } from "../store/store";
 
 type Props = {
   darkMode: boolean;
@@ -43,6 +45,8 @@ const navLinkStyles = {
 
 // ListItem's behave as Links through components
 export default function NavBar({ darkMode, changeThemeMode }: Props) {
+  const {isLoading} = useAppSelector(state => state.ui);
+
   return (
     <AppBar position="fixed" sx={{ display: "flex" }}>
       <Toolbar
@@ -89,6 +93,12 @@ export default function NavBar({ darkMode, changeThemeMode }: Props) {
           </List>
         </Box>
       </Toolbar>
+      {
+        isLoading && (
+          <Box sx={{width: '100%'}}>
+            <LinearProgress color="primary" />
+          </Box>
+        )}
     </AppBar>
   );
 }
