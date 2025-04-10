@@ -1,6 +1,7 @@
 import { createApi} from "@reduxjs/toolkit/query/react";
 import { Game } from "../../app/models/Game";
 import { baseQueryWithErrorHandling } from "../../app/api/baseApi";
+import { PlayerMode } from "../../app/models/Mode";
 
 export const catalogApi = createApi({
     reducerPath: 'catalogApi',
@@ -12,6 +13,9 @@ export const catalogApi = createApi({
         fetchGameDetails: builder.query<Game, string>({
             query: (gameId) => ({url: `game/${gameId}`})
         }),
+        fetchModes: builder.query<PlayerMode, void>({
+            query: () => ({url: 'modes'})
+        })
     })
 })
 

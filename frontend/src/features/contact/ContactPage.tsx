@@ -5,8 +5,8 @@ import { concat, decat, replace } from "./nameReducer";
 
 export default function ContactPage() {
   const states = useAppSelector(state => ({
-    counterState : state.counterState,
-    identityState: state.identityState 
+    counterState : state.counter,
+    identityState: state.identity,
   }));
   const dispatch = useAppDispatch();
 

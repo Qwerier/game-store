@@ -12,12 +12,9 @@ import {
   Typography,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { useAppSelector } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { toggleDarkMode } from "./uiSlice";
 
-type Props = {
-  darkMode: boolean;
-  changeThemeMode: () => void;
-};
 
 const midLinks = [
   { title: "Catalog", path: "/catalog" },
@@ -44,9 +41,9 @@ const navLinkStyles = {
 };
 
 // ListItem's behave as Links through components
-export default function NavBar({ darkMode, changeThemeMode }: Props) {
-  const {isLoading} = useAppSelector(state => state.ui);
-
+export default function NavBar() {
+  const {isLoading, isDarkMode} = useAppSelector(state => state.ui);
+  const dispatch = useAppDispatch();
   return (
     <AppBar position="fixed" sx={{ display: "flex" }}>
       <Toolbar
@@ -58,9 +55,9 @@ export default function NavBar({ darkMode, changeThemeMode }: Props) {
       >
         <Box sx={{ display: "flex", alignItems: 'center' }}>
           <Typography variant="h6">GameStore</Typography>
-          <Switch onClick={changeThemeMode}></Switch>
+          <Switch onClick={() => dispatch(toggleDarkMode())}></Switch>
           <IconButton>
-            {darkMode ? <DarkMode /> : <LightMode sx={{ color: "yellow" }} />}
+            {isDarkMode ? <DarkMode /> : <LightMode sx={{ color: "yellow" }} />}
           </IconButton>
         </Box>
 
