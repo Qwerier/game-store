@@ -9,7 +9,7 @@ export default function ContactPage() {
     identityState: state.identity,
   }));
   const dispatch = useAppDispatch();
-
+  
   return (
     <>
       <div>ContactPage views: {states.counterState.data} {states.identityState.name}</div>

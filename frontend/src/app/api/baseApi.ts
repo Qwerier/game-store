@@ -10,6 +10,8 @@ const customBaseQuery = fetchBaseQuery({
 // mimic a network delay
 const sleep = () => new Promise(resolve => setTimeout(resolve, 500));
 
+
+// delayed execution modelling 
 export const baseQueryWithErrorHandling = async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: object) => {
     api.dispatch(startLoading());
     await sleep();
