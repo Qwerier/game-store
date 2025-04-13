@@ -1,4 +1,5 @@
 using API.Data;
+using API.Middleware;
 using backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -15,12 +16,13 @@ builder.Services.AddDbContext<StoreContext>(options => {
     options.UseNpgsql(connectionString);
 });
 builder.Services.AddCors();
-
+builder.Services.AddTransient<ExceptionMiddleware>();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseCors(opt =>
 {
     opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:3000");

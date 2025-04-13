@@ -8,7 +8,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ErrorHandlingController : ControllerBase
+    public class ErrorsController : ControllerBase
     {
         [HttpGet("not-found")]
         public IActionResult GetNotFound(){
