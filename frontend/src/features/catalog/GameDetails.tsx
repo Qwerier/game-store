@@ -16,7 +16,6 @@ import {
 import { Euro } from "@mui/icons-material";
 import { useFetchGameDetailsQuery } from "./catalogApi";
 
-
 export default function GameDetails() {
   const { id } = useParams<string>();
 
@@ -36,11 +35,10 @@ export default function GameDetails() {
   // if (game === null) {
   //   return <div>Game not found...</div>;
   // }
-  
-  const {data: game, isLoading} = useFetchGameDetailsQuery(id!);
 
-  if (!game || isLoading) return <div>Game Not Found</div>
+  const { data: game, isLoading } = useFetchGameDetailsQuery(id!);
 
+  if (!game || isLoading) return <div>Game Not Found</div>;
 
   const gameDetails = [
     { label: "Name", text: game.name },
