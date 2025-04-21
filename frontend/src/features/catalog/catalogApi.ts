@@ -11,7 +11,7 @@ export const catalogApi = createApi({
             query: () => ({url: 'games'})
         }),
         fetchGameDetails: builder.query<Game, string>({
-            query: (gameId) => ({url: `game/${gameId}`})
+            query: (gameId) => ({url: `games/${gameId}`})
         }),
         fetchModes: builder.query<PlayerMode, void>({
             query: () => ({url: 'modes'})

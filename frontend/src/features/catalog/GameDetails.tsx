@@ -38,7 +38,8 @@ export default function GameDetails() {
 
   const { data: game, isLoading } = useFetchGameDetailsQuery(id!);
 
-  if (!game || isLoading) return <div>Game Not Found</div>;
+  if(isLoading) return <div>Please wait</div>;
+  if (!game) return <div>Game Not Found</div>;
 
   const gameDetails = [
     { label: "Name", text: game.name },

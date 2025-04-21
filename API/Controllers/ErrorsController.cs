@@ -17,12 +17,12 @@ namespace API.Controllers
 
         [HttpGet("bad-request")]
         public IActionResult GetBadRequest(){
-            return BadRequest("Something's wrong with the request itself");
+            return BadRequest();
         }
 
         [HttpGet("unauthorized")]
         public IActionResult GetUnauthorized(){
-            return Unauthorized("Not authorized to access resources");
+            return Unauthorized();
         }
 
         [HttpGet("validation-error")]

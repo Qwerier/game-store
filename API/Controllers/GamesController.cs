@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api/games")]
+    [Route("api/[controller]")]
     public class GamesController : ControllerBase
     {
         private readonly ILogger<GamesController> logger;

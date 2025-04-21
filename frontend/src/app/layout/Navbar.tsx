@@ -44,6 +44,7 @@ const navLinkStyles = {
 export default function NavBar() {
   const {isLoading, isDarkMode} = useAppSelector(state => state.ui);
   const dispatch = useAppDispatch();
+  
   return (
     <AppBar position="fixed" sx={{ display: "flex" }}>
       <Toolbar
