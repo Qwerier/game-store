@@ -36,7 +36,7 @@ export default function GameDetails() {
   //   return <div>Game not found...</div>;
   // }
 
-  const { data: game, isLoading } = useFetchGameDetailsQuery(id!);
+  const { data: game, isLoading } = useFetchGameDetailsQuery(id? id: "0");
 
   if(isLoading) return <div>Please wait</div>;
   if (!game) return <div>Game Not Found</div>;

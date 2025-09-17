@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./API
+    container_name: myapp-backend
+    ports:
+      - "5200:80"   
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=postgres;Username=postgres;Password=root
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: myapp-frontend
+    ports:
+      - "3000:80" 
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:17
+    container_name: myapp-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

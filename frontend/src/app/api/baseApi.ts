@@ -4,6 +4,7 @@ import { startLoading, stopLoading } from '../layout/uiSlice';
 import { BaseQueryApi, FetchArgs, fetchBaseQuery } from "@reduxjs/toolkit/query";
 import { router } from '../routes/Routing';
 
+//standard json response from our error endpoints
 type ErrorResponse = {
     data: ErrorData,
     status: number
@@ -34,8 +35,8 @@ const sleep = () => new Promise(resolve => setTimeout(resolve, 500));
 export const baseQueryWithErrorHandling = async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: object) => {
     api.dispatch(startLoading());
     await sleep();
-    api.dispatch(stopLoading());
     const result = await customBaseQuery(args, api, extraOptions);
+    api.dispatch(stopLoading());
 
     if (result.error) {
         const {status, data: errorData} = result.error as ErrorResponse;

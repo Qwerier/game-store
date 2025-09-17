@@ -18,7 +18,7 @@ export default function ContactPage() {
         <Button onClick={() => dispatch(increment(1))} color= 'secondary'>Increment</Button>
         <Button onClick={() => dispatch(concat('k'))} color= 'secondary'>Concatenate</Button>
         <Button onClick={() => dispatch(decat())} color= 'primary'>Decatenate</Button>
-        <Button onClick={() => dispatch(replace({char: 'k', replacement: 'p'}))} color= 'secondary'>Concatenate</Button>
+        <Button onClick={() => dispatch(replace({char: 'k', replacement: 'p'}))} color= 'secondary'>Replace</Button>
       </ButtonGroup>
     </>
   )

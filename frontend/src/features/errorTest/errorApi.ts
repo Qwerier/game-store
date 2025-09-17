@@ -9,6 +9,7 @@ export const errorApi = createApi({
         get400Error: builder.query<void, void>({
             query: () => ({url: 'errors/bad-request'})
         }),
+        
         get401Error: builder.query<void, void>({
             query: () => ({url: 'errors/unauthorized'})
         }),
