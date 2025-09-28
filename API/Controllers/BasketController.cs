@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
+using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,18 +25,19 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Basket>> GetBasket()
+        public async Task<ActionResult<BasketDto>> GetBasket()
         {
             Basket? basket = await RetrieveBasket();
 
             if (basket == null) return NotFound();
 
-            return Ok(basket);
+            return basket.ToDto();
+            //Ok(basket);
         }
 
 
         [HttpPost]
-        public async Task<ActionResult<Basket>> AddItemToBasket(string gameId, int quantity)
+        public async Task<ActionResult<BasketDto>> AddItemToBasket(string gameId, int quantity)
         {
             Basket? basket = await RetrieveBasket();
 
@@ -46,7 +49,7 @@ namespace API.Controllers
             basket.AddItem(game, quantity);
 
             bool isChanged = await context.SaveChangesAsync() > 0;
-            if (isChanged) return CreatedAtAction(nameof(GetBasket), basket);
+            if (isChanged) return CreatedAtAction(nameof(GetBasket), basket.ToDto());
 
             return BadRequest(new ProblemDetails { Title = "Problem saving item to basket!" });
         }
