@@ -13,9 +13,10 @@ namespace API.Data
         
         public required DbSet<Mode> Modes {get; set; }
         
-        public StoreContext(DbContextOptions<StoreContext> options): base(options)
+        public required DbSet<Basket> Baskets { get; set; }
+        public StoreContext(DbContextOptions<StoreContext> options) : base(options)
         {
-            
+
         }
 
     }
