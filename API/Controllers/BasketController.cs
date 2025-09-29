@@ -44,7 +44,7 @@ namespace API.Controllers
             basket ??= CreateBasket();
 
             Game? game = await context.Games.FindAsync(gameId);
-            if (game == null) return BadRequest(new ProblemDetails { Title = "Problem adding game to basket!" });
+            if (game == null) return NotFound(new ProblemDetails { Title = "Problem adding game to basket!" });
 
             basket.AddItem(game, quantity);
 
@@ -53,12 +53,19 @@ namespace API.Controllers
 
             return BadRequest(new ProblemDetails { Title = "Problem saving item to basket!" });
         }
+        [HttpDelete]
+        public async Task<ActionResult> RemoveBasketItem(string gameId, int quantity)
+        {
+            Basket? basket = await RetrieveBasket();
+            if (basket == null) return NotFound(new ProblemDetails { Title = "Unable to retrieve basket!" });
 
-        // [HttpDelete]
-        // public async Task<ActionResult> RemoveBasketItem(int productId, int quantity)
-        // {
+            basket.RemoveItem(gameId, quantity);
 
-        // }
+            bool isChanged = await context.SaveChangesAsync() > 0;
+            if (isChanged) return Ok();
+
+            return BadRequest(new ProblemDetails { Title = "Problem removing item from the basket!" });
+        }
         
         private Basket CreateBasket()
         {
