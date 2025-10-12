@@ -49,7 +49,7 @@ export default function GameCard({ game }: Props) {
           sx={{justifyContent: 'space-between'}}
         >
           <Button disabled={isLoading} 
-            onClick={()=> addBasketItem({gameId: game.id, quantity: 1})} >Add to Cart</Button>
+            onClick={()=> addBasketItem({game: game, quantity: 1})} >Add to Cart</Button>
           <Button component={Link} to={`/catalog/${game.id}`} >Details</Button> {/* Link from react-router-dom as we're retrieving the id */}
         </CardActions>
       </Card>
