@@ -17,12 +17,7 @@ namespace API.Entities
         //Navigation property to Basket
         public int BasketId { get; set; }
 
-        public required Basket Basket { get; set; }
-
-        public BasketItem()
-        {
-            
-        }
+        public Basket Basket { get; set; } = null!;
     }
     
 }

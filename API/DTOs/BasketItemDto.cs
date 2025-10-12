@@ -20,7 +20,7 @@ namespace API.DTOs
         public decimal Price { get; set; }
 
         // property belongs to BasketItem entity
-        public int Quanity { get; set; }
+        public int Quantity { get; set; }
    
     }
 }

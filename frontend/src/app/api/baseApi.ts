@@ -24,7 +24,8 @@ type ErrorList = {
 }
 
 const customBaseQuery = fetchBaseQuery({
-    baseUrl: 'https://localhost:5200/api'
+    baseUrl: 'https://localhost:5200/api',
+    credentials: 'include', // include cookies for cross-origin requests
 });
 
 // mimic a network delay

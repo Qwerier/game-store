@@ -5,17 +5,19 @@ import { identitySlice } from "../../features/contact/nameReducer";
 import { catalogApi } from "../../features/catalog/catalogApi";
 import { uiSlice } from "../layout/uiSlice";
 import { errorApi } from "../../features/errorTest/errorApi";
+import { basketApi } from "../../features/basket/basketApi";
 
 export const store = configureStore({
     reducer: {
         [catalogApi.reducerPath]: catalogApi.reducer, // standard logic
         [errorApi.reducerPath]: errorApi.reducer,
+        [basketApi.reducerPath]: basketApi.reducer,
         ui: uiSlice.reducer,
         counter: counterSlice.reducer,
         identity: identitySlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(catalogApi.middleware, errorApi.middleware)
+        getDefaultMiddleware().concat(catalogApi.middleware, errorApi.middleware, basketApi.middleware)
 })
 
 // the following ensure typesafety for TS

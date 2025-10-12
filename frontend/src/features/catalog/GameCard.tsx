@@ -1,6 +1,7 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import { Game } from "../../app/models/Game";
 import { Link } from "react-router-dom";
+import { useAddBasketItemMutation } from "../basket/basketApi";
 
 type Props = {
   game: Game;
@@ -8,6 +9,8 @@ type Props = {
 
 // represents a single Game object
 export default function GameCard({ game }: Props) {
+  const [addBasketItem, {isLoading}] = useAddBasketItemMutation();
+
   return (
     <>
       <Card
@@ -45,6 +48,8 @@ export default function GameCard({ game }: Props) {
         <CardActions
           sx={{justifyContent: 'space-between'}}
         >
+          <Button disabled={isLoading} 
+            onClick={()=> addBasketItem({gameId: game.id, quantity: 1})} >Add to Cart</Button>
           <Button component={Link} to={`/catalog/${game.id}`} >Details</Button> {/* Link from react-router-dom as we're retrieving the id */}
         </CardActions>
       </Card>

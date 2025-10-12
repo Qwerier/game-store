@@ -12,7 +12,7 @@ namespace API.Entities
     {
         public int Id { get; set; }
 
-        public required string BasketCookieId { get; set; }
+        public required string CookieId { get; set; }
 
         public List<BasketItem> Items { get; set; } = [];
 

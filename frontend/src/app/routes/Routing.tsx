@@ -7,7 +7,8 @@ import AboutPage from "../../features/about/AboutPage";
 import ContactPage from "../../features/contact/ContactPage";
 import ErrorPage from "../../features/errorTest/ErrorPage";
 import ServerError from "../../features/errorTest/ServerError";
-import NotFoundError from "../../features/errorTest/NotFoundError";
+import NotFound from "../../features/errorTest/NotFound";
+import BasketPage from "../../features/basket/BasketPage";
 
 // defines routes for default path served through RouterProvider in frontend\src\main.tsx
 export const router = createBrowserRouter([
@@ -20,10 +21,11 @@ export const router = createBrowserRouter([
             {path: '/catalog/:id', element: <GameDetails/>}, // component based on a path param
             {path: '/about', element: <AboutPage/>},
             {path: '/contact', element: <ContactPage/>},
+            {path: '/basket', element: <BasketPage/>},
             {path: '/error', element: <ErrorPage/> },
             {path: '/server-error', element: <ServerError/>},
-            {path: '/notfound-error', element: <NotFoundError/>},
-            {path: '*', element: <Navigate replace to='/notfound-error'/>},
+            {path: '/notfound', element: <NotFound/>},
+            {path: '*', element: <Navigate replace to='/notfound'/>},
         ]
     }
 ])

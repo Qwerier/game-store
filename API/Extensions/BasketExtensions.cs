@@ -11,7 +11,7 @@ namespace API.Extensions
     {
         public static BasketDto ToDto(this Basket basket){
             return new BasketDto{
-                BasketId = basket.BasketCookieId,
+                BasketId = basket.CookieId,
                 Items = basket.Items.Select(item => new BasketItemDto{
                     GameId = item.GameId,
                     Name = item.Game.Name,
@@ -19,7 +19,7 @@ namespace API.Extensions
                     PictureUrl = item.Game.PictureUrl,
                     Genre = item.Game.Genre,
                     Publisher = item.Game.Publisher,
-                    Quanity = item.Quantity
+                    Quantity = item.Quantity
                 }).ToList()
             };
         }

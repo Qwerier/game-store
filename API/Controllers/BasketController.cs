@@ -47,7 +47,7 @@ namespace API.Controllers
             if (game == null) return NotFound(new ProblemDetails { Title = "Problem adding game to basket!" });
 
             basket.AddItem(game, quantity);
-
+            
             bool isChanged = await context.SaveChangesAsync() > 0;
             if (isChanged) return CreatedAtAction(nameof(GetBasket), basket.ToDto());
 
@@ -76,8 +76,9 @@ namespace API.Controllers
                 Expires = DateTime.Now.AddDays(30)
             };
             Response.Cookies.Append("basketCookieId", basketCookieId, cookieOptions);
-            Basket basket = new Basket { BasketCookieId = basketCookieId };
+            Basket basket = new Basket { CookieId = basketCookieId };
 
+            // not yet committed to db per Unit of Work pattern
             context.Baskets.Add(basket);
             // no changes saved as it breaks responsibility patterns
             return basket;
@@ -90,8 +91,7 @@ namespace API.Controllers
             Basket? basket = await context.Baskets
                                 .Include(basket => basket.Items) // retrieve them through navigation prop
                                 .ThenInclude(item => item.Game)
-                                .AsNoTracking()
-                                .FirstOrDefaultAsync(basket => basket.BasketCookieId == basketCookieId);
+                                .FirstOrDefaultAsync(basket => basket.CookieId == basketCookieId);
 
             return basket;
         }
