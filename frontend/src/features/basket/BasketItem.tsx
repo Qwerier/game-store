@@ -1,19 +1,22 @@
 import { Box, Grid, IconButton, Paper, Typography } from "@mui/material";
 import { Item } from "../../app/models/Basket"
 import { Add, Close, Remove } from "@mui/icons-material";
-import { useRemoveBasketItemMutation } from "./basketApi";
+import { useAddBasketItemMutation, useRemoveBasketItemMutation } from "./basketApi";
 
 type Props = {
     item: Item
 };
 const predef =  { xs: '0.8rem', sm: '1rem', md: '1.1rem' };
 const predef2 =  { xs: '1rem', sm: '1.1rem', md: '1.2rem' };
+
 export default function BasketItem({item}:Props) {
     const [removeBasketItem] = useRemoveBasketItemMutation();
+    const [addBasketItem] = useAddBasketItemMutation();
+
   return (
     <Paper sx={{
         width:{ xs: 350, sm: 500, md: 500 }
-        , position:'relative'
+
         ,borderRadius:3
         ,display:'flex'
         ,justifyContent:'space-between'
@@ -58,7 +61,9 @@ export default function BasketItem({item}:Props) {
                             <Remove />
                         </IconButton>
                         <Typography sx={{fontSize: predef, mx:2}}>{item.quantity}</Typography>
-                        <IconButton color="success" size="small" sx={{border: 1, borderRadius: 1}} >
+                        <IconButton color="success" size="small" sx={{border: 1, borderRadius: 1}} 
+                        onClick={()=> addBasketItem({game: item, quantity: item.quantity})}
+                        >
                             <Add />
                         </IconButton>
                     </Grid>

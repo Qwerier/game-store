@@ -15,9 +15,24 @@ import {
 } from "@mui/material";
 import { Euro } from "@mui/icons-material";
 import { useFetchGameDetailsQuery } from "./catalogApi";
+import { useAddBasketItemMutation, useRemoveBasketItemMutation } from "../basket/basketApi";
+import { useFetchBasketQuery } from "../basket/basketApi";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export default function GameDetails() {
   const { id } = useParams<string>();
+  const [removeBasketItem] = useRemoveBasketItemMutation();
+  const [addBasketItem] = useAddBasketItemMutation();
+  const {data: basket} = useFetchBasketQuery();
+  const item = basket?.items.find(i => i.gameId === id);
+
+  const [quantity, setQuantity] = useState<number>(item? item.quantity : 0);
+
+  // handle of component re-rendering when item changes due to an external API call
+  useEffect(()=>{
+    if (item) setQuantity(item.quantity);
+  }, [item]);
+
 
   // const [game, setGame] = useState<Game | null>(null); // could be a non existing product
 
@@ -41,12 +56,29 @@ export default function GameDetails() {
   if(isLoading) return <div>Please wait</div>;
   if (!game) return <div>Game Not Found</div>;
 
+  const updateQuantityInBasket = ()=>{
+    // amount to add or remove from basket
+    const updatedQuantity = item? Math.abs(quantity - item.quantity) : quantity;
+
+    if (item && quantity < item.quantity) {
+      removeBasketItem({gameId: item.gameId, quantity: updatedQuantity});
+    }
+    else if (item && quantity > item.quantity) {
+      addBasketItem({game: item, quantity: updatedQuantity});
+  }
+}
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) =>{
+    const value = Number.parseInt(event.currentTarget.value);
+    if(value && value >= 0) setQuantity(value);
+  }
+
   const gameDetails = [
     { label: "Name", text: game.name },
     { label: "Description", text: game.description },
     { label: "Developer", text: game.developer },
     { label: "Genre", text: game.genre },
-    { label: "Player Mode", text: game.playerMode.playerMode },
+    { label: "Player Mode", text: game.playerMode },
     { label: "Publisher", text: game.publisher },
     {
       label: "Release Date",
@@ -98,7 +130,8 @@ export default function GameDetails() {
               type="number"
               label="Quantity in basket"
               sx={{ width: "20vh" }}
-              defaultValue={0}
+              value={quantity}
+              onChange={handleInputChange}
             />
           </Grid>
 
@@ -109,6 +142,9 @@ export default function GameDetails() {
               variant="contained"
               fullWidth
               sx={{ width: "20vh" }}
+
+              onClick={updateQuantityInBasket}
+              disabled={quantity === 0 || quantity === item?.quantity }
             >
               Add to Basket
             </Button>

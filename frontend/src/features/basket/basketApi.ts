@@ -3,6 +3,10 @@ import { baseQueryWithErrorHandling } from "../../app/api/baseApi";
 import { Basket, Item } from "../../app/models/Basket";
 import { Game } from "../../app/models/Game";
 
+function isBasketItem(arg: Game | Item) : arg is Item {
+    return (arg as Item).quantity !== undefined;
+}
+
 export const basketApi = createApi({
     reducerPath: "basketApi",
     baseQuery: baseQueryWithErrorHandling,
@@ -12,27 +16,36 @@ export const basketApi = createApi({
             query: () =>  'basket',
             providesTags: ['Basket']
         }),
-        addBasketItem: builder.mutation<Basket,{game: Game, quantity: number}>({
-            query: ({game, quantity}) => ({
-                url: `basket?gameId=${game.id}&quantity=${quantity}`,
-                method: 'POST'
-            }),
-            // contains an opimistic update to speed up the change into navbar when we add items
+        addBasketItem: builder.mutation<Basket,{game: Game | Item, quantity: number}>({
+            query: ({game, quantity}) => {
+                const gameId = isBasketItem(game) ? game.gameId : game.id;
+
+                return{                
+                    url: `basket?gameId=${gameId}&quantity=${quantity}`,
+                    method: 'POST'
+                }
+
+            },
+            // contains an opimistic update to speed up the change in basket
             onQueryStarted: async ({game, quantity}, {dispatch, queryFulfilled}) => {
-                
+                let isFirstTime: boolean = false;
+
                 const patchResult = dispatch(
                     basketApi.util.updateQueryData('fetchBasket', undefined , draft =>{
+                        if(!draft.basketId) isFirstTime = true;
                         if(draft){
-                            const existingItem = draft.items.find(i => i.gameId === game.id);
+                            const gameId = isBasketItem(game) ? game.gameId : game.id;
+
+                            const existingItem = draft.items.find(i => i.gameId === gameId);
                             if(existingItem) existingItem.quantity += quantity;
-                            else draft.items.push(new Item(game, quantity) );
+                            else draft.items.push( isBasketItem(game)? game : new Item(game, quantity) );
                         }
                     })
                 );
                 
                 try {
                     await queryFulfilled;
-                    
+                    if(isFirstTime) dispatch(basketApi.util.invalidateTags(['Basket']));
                     // dispatch(basketApi.util.invalidateTags(['Basket']));
                 } catch (error) {
                     console.log(error);

@@ -47,12 +47,13 @@ namespace API.Controllers
             if (game == null) return NotFound(new ProblemDetails { Title = "Problem adding game to basket!" });
 
             basket.AddItem(game, quantity);
-            
+
             bool isChanged = await context.SaveChangesAsync() > 0;
             if (isChanged) return CreatedAtAction(nameof(GetBasket), basket.ToDto());
 
             return BadRequest(new ProblemDetails { Title = "Problem saving item to basket!" });
         }
+        
         [HttpDelete]
         public async Task<ActionResult> RemoveBasketItem(string gameId, int quantity)
         {
