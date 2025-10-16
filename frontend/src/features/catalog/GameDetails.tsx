@@ -56,6 +56,7 @@ export default function GameDetails() {
   if(isLoading) return <div>Please wait</div>;
   if (!game) return <div>Game Not Found</div>;
 
+  // a function to post the updated quantities to the basket
   const updateQuantityInBasket = ()=>{
     // amount to add or remove from basket
     const updatedQuantity = item? Math.abs(quantity - item.quantity) : quantity;
@@ -67,7 +68,7 @@ export default function GameDetails() {
       addBasketItem({game: item, quantity: updatedQuantity});
   }
 }
-
+  // event to handle changes in the quantity textfield
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) =>{
     const value = Number.parseInt(event.currentTarget.value);
     if(value && value >= 0) setQuantity(value);

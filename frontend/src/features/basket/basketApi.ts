@@ -38,8 +38,9 @@ export const basketApi = createApi({
 
                             const existingItem = draft.items.find(i => i.gameId === gameId);
                             if(existingItem) existingItem.quantity += quantity;
-                            else draft.items.push( isBasketItem(game)? game : new Item(game, quantity) );
-                        }
+                            else draft.items.push( isBasketItem(game)? game : {...game, gameId: game.id, quantity} );
+                            // above replaced a constructor call with spread as Redux allows simple object serialization no funcs allowed
+                        }   
                     })
                 );
                 
