@@ -24,7 +24,8 @@ type ErrorList = {
 }
 
 const customBaseQuery = fetchBaseQuery({
-    baseUrl: 'https://localhost:5200/api'
+    baseUrl: 'https://localhost:5200/api',
+    credentials: 'include', // include cookies for cross-origin requests
 });
 
 // mimic a network delay
@@ -47,7 +48,7 @@ export const baseQueryWithErrorHandling = async (args: string | FetchArgs, api: 
                 if ('errors' in errorData){
                     toast.error("Validation Error")
                     throw Object.values(errorData.errors!).flat().join(', ')
-                } 
+                }
                 else toast.error(errorData.title)
                 break;
             case 401:

@@ -1,4 +1,3 @@
-import { PlayerMode } from "./Mode"
 
 export type Game = {
     id: string
@@ -12,5 +11,5 @@ export type Game = {
     price: number
     quantityInStock: number
     playerModeId: number
-    playerMode: PlayerMode
+    playerMode: string
   }

@@ -6,7 +6,8 @@ using API.Data;
 using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using API.Extensions;
+using API.DTOs;
 namespace API.Controllers
 {
     [ApiController]
@@ -22,15 +23,16 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Game>>> GetGames(){
+        public async Task<ActionResult<List<GameDto>>> GetGames(){
             return await context.Games
-                        .Include(x=> x.PlayerMode)
+                        .Include(x => x.PlayerMode)
                         .AsNoTracking()
+                        .Select(g => g.ToDto())
                         .ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Game>> GetProduct(string id)
+        public async Task<ActionResult<GameDto>> GetProduct(string id)
         {
             Game? game = await context.Games
                             .Include(g=> g.PlayerMode)
@@ -39,7 +41,8 @@ namespace API.Controllers
 
             if (game == null) return NotFound();
 
-            return Ok(game);
+            return Ok(game.ToDto());
         }
     }
+
 }
