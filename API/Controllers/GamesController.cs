@@ -23,10 +23,17 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GameDto>>> GetGames(){
-            return await context.Games
-                        .Include(x => x.PlayerMode)
-                        .AsNoTracking()
+        public async Task<ActionResult<List<GameDto>>> GetGames(string? orderBy, string? searchTerm, string? genres, string? publishers){
+            IQueryable<Game> query = context.Games
+                    .Include(g => g.PlayerMode)
+                    .AsNoTracking();
+
+            query = query
+                    .Sort(orderBy)
+                    .Search(searchTerm)
+                    .Filter(genres, publishers);
+            
+            return await query
                         .Select(g => g.ToDto())
                         .ToListAsync();
         }
