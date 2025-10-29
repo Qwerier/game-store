@@ -9,7 +9,7 @@ namespace API.Extensions;
 public static class RequestExtensions
 {
     private static readonly JsonSerializerOptions jsonOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-    public static void AddPaginationHeader<T>(this HttpResponse response, PaginationMetadata<T> metadata)
+    public static void AddPaginationHeader(this HttpResponse response, PaginationMetadata metadata)
     {
         response.Headers.Append("Pagination", JsonSerializer.Serialize(metadata, jsonOptions));
         // makes it CORS compliant

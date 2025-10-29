@@ -35,9 +35,11 @@ namespace API.Controllers
                     .Search(gameParams.SearchTerm)
                     .Filter(gameParams.Genres, gameParams.Publishers);
 
+            var metadata = new PaginationMetadata(await query.CountAsync(), gameParams.PageSize, gameParams.PageNumber);
+            Response.AddPaginationHeader(metadata);
+
             IQueryable<Game> games = query.Paginate(gameParams.PageNumber, gameParams.PageSize);
 
-            Response.AddPaginationHeader(new PaginationMetadata<Game>(query, gameParams.PageSize, gameParams.PageNumber));
             // PaginatedList<Game> games = await PaginatedList<Game>.ToPaginatedList(query,
             //         gameParams.PageNumber, gameParams.PageSize);
 
@@ -57,13 +59,30 @@ namespace API.Controllers
         public async Task<ActionResult<GameDto>> GetProduct(string id)
         {
             Game? game = await context.Games
-                            .Include(g=> g.PlayerMode)
+                            .Include(g => g.PlayerMode)
                             .AsNoTracking()
                             .FirstOrDefaultAsync(g => g.Id == id);
 
             if (game == null) return NotFound();
 
             return Ok(game.ToDto());
+        }
+
+        [HttpGet("filters")]
+        public async Task<IActionResult> GetFilters()
+        {
+            var genres = await context.Games
+                .GroupBy(g => g.Genre)
+                .Select(g => g.Key)
+                .ToListAsync();
+
+            var publishers = await context.Games
+                .GroupBy(g => g.Publisher)
+                .Select(p => p.Key)
+                .ToListAsync();
+
+            return Ok(new { genres, publishers });
+
         }
     }
 
