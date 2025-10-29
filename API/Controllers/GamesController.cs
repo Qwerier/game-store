@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Extensions;
 using API.DTOs;
+using API.RequestHelpers;
 namespace API.Controllers
 {
     [ApiController]
@@ -23,19 +24,33 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GameDto>>> GetGames(string? orderBy, string? searchTerm, string? genres, string? publishers){
+        // by default objects are binded from the body not querystring
+        public async Task<ActionResult<List<GameDto>>> GetGames([FromQuery] GameParams gameParams){
             IQueryable<Game> query = context.Games
                     .Include(g => g.PlayerMode)
                     .AsNoTracking();
 
             query = query
-                    .Sort(orderBy)
-                    .Search(searchTerm)
-                    .Filter(genres, publishers);
+                    .Sort(gameParams.OrderBy)
+                    .Search(gameParams.SearchTerm)
+                    .Filter(gameParams.Genres, gameParams.Publishers);
+
+            IQueryable<Game> games = query.Paginate(gameParams.PageNumber, gameParams.PageSize);
+
+            Response.AddPaginationHeader(new PaginationMetadata<Game>(query, gameParams.PageSize, gameParams.PageNumber));
+            // PaginatedList<Game> games = await PaginatedList<Game>.ToPaginatedList(query,
+            //         gameParams.PageNumber, gameParams.PageSize);
+
+            // Response.AddPaginationHeader(games.Metadata);
             
-            return await query
-                        .Select(g => g.ToDto())
-                        .ToListAsync();
+            return await games
+                .Select(g => g.ToDto())
+                .AsQueryable()
+                .ToListAsync();
+            
+            // return await query
+            //             .Select(g => g.ToDto())
+            //             .ToListAsync();
         }
 
         [HttpGet("{id}")]

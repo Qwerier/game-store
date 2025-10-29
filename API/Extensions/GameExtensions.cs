@@ -49,7 +49,7 @@ namespace API.Extensions
 
             return query.Where(g => g.Name.Contains(searchTerm));
         }
-        
+
         public static IQueryable<Game> Filter(this IQueryable<Game> query, string? genres, string? publishers)
         {
             List<string> genresList = [];
@@ -74,6 +74,11 @@ namespace API.Extensions
             }
 
             return query;
+        }
+        
+        public static IQueryable<Game> Paginate(this IQueryable<Game> query, int pageNumber, int pageSize)
+        {
+            return query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
         }
     }
 }
