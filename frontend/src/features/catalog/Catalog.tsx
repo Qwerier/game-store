@@ -1,5 +1,7 @@
+import { Grid } from "@mui/material";
 import GameList from "./GameList";
 import { useFetchGamesQuery } from "./catalogApi";
+import Filters from "./Filters";
 
 export default function Catalog() {
   // const [games, setGames] = useState<Game[]>([]);
@@ -16,8 +18,14 @@ export default function Catalog() {
   if(isLoading || !games) return <div>Loading...</div>
 
   return (
-    <>
-      <GameList games={games} />
-    </>
+    <Grid container spacing={4}>
+      <Grid size={3}>
+        <Filters/>
+      </Grid>
+      <Grid size={9}>
+        <GameList games={games} />
+      </Grid>
+    </Grid>
+
   );
 }

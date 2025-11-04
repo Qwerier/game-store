@@ -16,9 +16,12 @@ export const catalogApi = createApi({
             }),
             fetchModes: builder.query<PlayerMode, void>({
                 query: () => ({url: 'modes'})
-        })
+            }),
+            fetchFilters: builder.query<{genres: string[], publishers: string[]}, void>({
+                query: () => ({url:'games/filters'})
+            })
     })
 })
 
 
-export const {useFetchGameDetailsQuery, useFetchGamesQuery} = catalogApi;
+export const {useFetchGameDetailsQuery, useFetchGamesQuery, useFetchFiltersQuery} = catalogApi;

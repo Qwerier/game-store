@@ -24,7 +24,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        // by default objects are binded from the body not querystring
+        // by default objects-as-args are binded from the body not querystring
         public async Task<ActionResult<List<GameDto>>> GetGames([FromQuery] GameParams gameParams){
             IQueryable<Game> query = context.Games
                     .Include(g => g.PlayerMode)

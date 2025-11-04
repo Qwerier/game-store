@@ -1,6 +1,7 @@
 import { Game } from "../../app/models/Game";
 import GameCard from "./GameCard";
 import '../../app/layout/styles.css'
+import { Grid } from "@mui/material";
 
 type Props = {
   games: Game[];
@@ -9,10 +10,15 @@ type Props = {
 // represents the whole collection of Game objects
 export default function GameList({ games }: Props) {
   return (
-    <div className="center-spacing">
+    <Grid container spacing={3}>
         {games.map(game => (
+          <Grid size={3} display='flex' >
             <GameCard key={game.id} game={game} />
+          </Grid>
         ))}
-    </div>
+    </Grid>
+    // <div className="center-spacing">
+
+    // </div>
   );
 }
