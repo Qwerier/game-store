@@ -6,7 +6,7 @@ type Props = {
     onPageChange: (page: number) => void
 }
 export default function AppPagination({metadata, onPageChange}: Props) {
-    const {rowCount, pageSize, currentPage} = metadata;
+    const {rowCount, pageSize, currentPage, pageCount} = metadata;
     const startItem = (currentPage - 1) * pageSize + 1;
     const endItem = Math.min(currentPage * pageSize, rowCount);
 
@@ -18,7 +18,7 @@ export default function AppPagination({metadata, onPageChange}: Props) {
       <Pagination
         color="secondary"
         size="large"
-        count={rowCount}
+        count={pageCount}
         page={currentPage}
         onChange={(_, currentPage) => onPageChange(currentPage)}
       />

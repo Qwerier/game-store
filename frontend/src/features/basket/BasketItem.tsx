@@ -62,7 +62,7 @@ export default function BasketItem({item}:Props) {
                         </IconButton>
                         <Typography sx={{fontSize: predef, mx:2}}>{item.quantity}</Typography>
                         <IconButton color="success" size="small" sx={{border: 1, borderRadius: 1}} 
-                        onClick={()=> addBasketItem({game: item, quantity: item.quantity})}
+                        onClick={()=> addBasketItem({game: item, quantity: 1})}
                         >
                             <Add />
                         </IconButton>

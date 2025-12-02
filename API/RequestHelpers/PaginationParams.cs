@@ -11,7 +11,7 @@ namespace API.RequestHelpers
 
         public int PageNumber { get; set; } = 1;
 
-        private int _pageSize = 10;
+        private int _pageSize = 8;
 
         public int PageSize
         {

@@ -3,7 +3,7 @@ import { GameParams } from "../../app/models/GameParams";
 
 const initialState: GameParams = {
     pageNumber: 1,
-    pageSize: 10,
+    pageSize: 8,
     genres: [],
     publishers: [],
     searchTerm: '',

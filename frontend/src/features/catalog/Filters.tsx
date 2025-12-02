@@ -8,7 +8,7 @@ import {
 import Search from "./Search";
 import RadioButtonGroup from "../../shared/components/RadioButtonGroup";
 import { useAppDispatch, useAppSelector } from "../../app/store/store";
-import { reset, setGenres, setOrderBy } from "./catalogSlice";
+import { reset, setGenres, setOrderBy, setPublishers } from "./catalogSlice";
 import CheckboxButtons from "../../shared/components/CheckboxButtons";
 
 const sortOptions = [
@@ -59,7 +59,7 @@ export default function Filters({propFilters}: Props) {
           <CheckboxButtons
             items={propFilters.publishers}
             checked={publishers}
-            onChange={(publishers) => dispatch(setGenres(publishers))}
+            onChange={(publishers) => dispatch(setPublishers(publishers))}
           />
         </FormGroup>
       </Paper>

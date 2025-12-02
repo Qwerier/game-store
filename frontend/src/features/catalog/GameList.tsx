@@ -12,7 +12,7 @@ export default function GameList({ games }: Props) {
   return (
     <Grid container spacing={3}>
         {games.map(game => (
-          <Grid size={3} display='flex' >
+          <Grid key={game.id} size={3} display='flex' >
             <GameCard key={game.id} game={game} />
           </Grid>
         ))}

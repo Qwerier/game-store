@@ -23,7 +23,8 @@ export default function GameDetails() {
   const { id } = useParams<string>();
   const [removeBasketItem] = useRemoveBasketItemMutation();
   const [addBasketItem] = useAddBasketItemMutation();
-  const {data: basket} = useFetchBasketQuery();
+
+  const {data: basket} = useFetchBasketQuery(); // otherwise we can't fetch the items to copmpare its quantity and chosen quantity
   const item = basket?.items.find(i => i.gameId === id);
 
   const [quantity, setQuantity] = useState<number>(item? item.quantity : 0);
@@ -144,7 +145,7 @@ export default function GameDetails() {
               fullWidth
               sx={{ width: "20vh" }}
 
-              onClick={updateQuantityInBasket}
+              onClick={() => updateQuantityInBasket()}
               disabled={quantity === 0 || quantity === item?.quantity }
             >
               Add to Basket
