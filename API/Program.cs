@@ -47,6 +47,6 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapIdentityApi<User>();
 
-DbInitializer.InitializeDB(app);
+await DbInitializer.InitializeDB(app);
 
 app.Run();
