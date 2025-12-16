@@ -1,12 +1,13 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQueryWithErrorHandling } from "../../app/api/baseApi";
 import { User } from "../../app/models/User";
+import { LoginSchema } from "../../app/lib/loginSchema";
 
 export const accountApi = createApi({
     reducerPath: 'accountApi',
     baseQuery: baseQueryWithErrorHandling,
     endpoints: (builder)=>({
-        login: builder.mutation<void, object>({
+        login: builder.mutation<void, LoginSchema>({
             query: (creds) => {
                 return {
                     method: 'POST',
