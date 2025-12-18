@@ -43,13 +43,13 @@ export default function LoginForm() {
                         helperText={errors.email?.message}
                         autoFocus
                     />
-                    <TextField
+                    {/* <TextField
                         fullWidth
                         label='Username'
                         {...register("username")}
                         error={!!errors.username}
                         helperText={errors.username?.message}
-                    />
+                    /> */}
                     <TextField
                         fullWidth
                         label='Password'
