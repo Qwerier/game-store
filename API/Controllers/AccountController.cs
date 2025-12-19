@@ -40,6 +40,13 @@ namespace API.Controllers
             return Ok();
         }
 
+        [HttpPost("login")]
+        public async Task<ActionResult> Login(LoginDto loginDto)
+        {
+            User? user = await _signInManager.UserManager.FindByNameAsync(loginDto.Email);
+
+        }
+
         [HttpGet("user-info")]
         public async Task<ActionResult> GetUserInfo()
         {
