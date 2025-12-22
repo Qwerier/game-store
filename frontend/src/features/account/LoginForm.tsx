@@ -1,6 +1,6 @@
 import { LockOutlined } from "@mui/icons-material";
 import { Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {useForm} from "react-hook-form";
 import { loginSchema, LoginSchema } from "../../app/lib/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,10 +12,11 @@ export default function LoginForm() {
         mode: "onSubmit",
         resolver: zodResolver(loginSchema) // allows for schema validation
     });
-    
+    const navigate  = useNavigate();
     // passed as a function reference to the submit of form
     const onSubmit = async (data: LoginSchema) => {
         await login(data);
+        navigate('/catalog');
     }
 
     return (

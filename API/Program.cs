@@ -22,8 +22,6 @@ builder.Services.AddTransient<ExceptionMiddleware>();
 builder.Services.AddIdentityApiEndpoints<User>(opt =>
 {
     opt.User.RequireUniqueEmail = true;
-    opt.Password.RequireDigit = true;
-    opt.Password.RequireNonAlphanumeric = true;
     opt.SignIn.RequireConfirmedAccount = false;
 })
     .AddRoles<IdentityRole>() // sets identity-provided role as app's role

@@ -9,7 +9,7 @@ type Props = {
 }
 
 export default function UserMenu({ user }: Props) {
-    const[logout] = useLogoutMutation();
+    const [logout] = useLogoutMutation();
     
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);

@@ -45,6 +45,22 @@ namespace API.Controllers
         {
             User? user = await _signInManager.UserManager.FindByNameAsync(loginDto.Email);
 
+            if(user is null) return Unauthorized();
+
+            var result = await _signInManager.CheckPasswordSignInAsync(
+                user,
+                loginDto.Password,
+                lockoutOnFailure: false // momentarily as a control mechanism
+            );
+
+            if (result.Succeeded)
+            {
+                // set cookie but dont store it if browser closes
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return Ok();
+            }
+
+            return Unauthorized();
         }
 
         [HttpGet("user-info")]
