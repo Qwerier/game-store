@@ -15,7 +15,11 @@ export default function RegisterForm() {
     });
 
     const onSubmit = async (data: RegisterSchema) => {
-        await registerUser(data);
+        try {
+            await registerUser(data);
+        } catch (error) {
+            
+        }
     }
     return (
         <Container component={Paper} maxWidth='sm' sx={{ borderRadius: 3 }}>
@@ -57,7 +61,7 @@ export default function RegisterForm() {
                         error={!!errors.password}
                         helperText={errors.password?.message}
                     />
-                    <Button disabled={isLoading || isValid} variant="contained" type="submit">
+                    <Button disabled={isLoading || !isValid} variant="contained" type="submit">
                         Register 
                     </Button>
                     <Typography sx={{ textAlign: 'center' }}>
