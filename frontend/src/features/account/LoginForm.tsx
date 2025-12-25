@@ -1,13 +1,16 @@
 import { LockOutlined } from "@mui/icons-material";
 import { Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {useForm} from "react-hook-form";
 import { loginSchema, LoginSchema } from "../../app/lib/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useLoginMutation } from "./accountApi";
+import { useLazyUserInfoQuery, useLoginMutation } from "./accountApi";
 
 export default function LoginForm() {
     const [login, {isLoading}] = useLoginMutation();
+    const [fetchUserInfo] = useLazyUserInfoQuery(); // secures UI refreshesd
+    const location = useLocation();
+
     const {register, handleSubmit, formState: {errors}}= useForm<LoginSchema>({
         mode: "onSubmit",
         resolver: zodResolver(loginSchema) // allows for schema validation
@@ -16,7 +19,8 @@ export default function LoginForm() {
     // passed as a function reference to the submit of form
     const onSubmit = async (data: LoginSchema) => {
         await login(data);
-        navigate('/catalog');
+        await fetchUserInfo();
+        navigate(location.state?.from || '/catalog'); // trick to return them to previous page
     }
 
     return (

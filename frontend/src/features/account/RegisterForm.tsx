@@ -6,19 +6,32 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { data, Link } from 'react-router-dom';
 import { LockOutlined } from '@mui/icons-material';
 import { Container, Paper, Box, Typography, TextField, Button } from '@mui/material';
+import { set } from 'zod';
 
 export default function RegisterForm() {
     const [registerUser] = useRegisterMutation();
-    const { register, handleSubmit, formState: { errors, isValid, isLoading } } = useForm<RegisterSchema>({
+    const { register, handleSubmit, setError, formState: { errors, isValid, isLoading } } = useForm<RegisterSchema>({
         mode: 'onSubmit',
         resolver: zodResolver(registerSchema)
     });
 
     const onSubmit = async (data: RegisterSchema) => {
         try {
-            await registerUser(data);
+            await registerUser(data).unwrap();
         } catch (error) {
-            
+            const bareError = error as {message: string};
+
+            if (bareError.message && typeof bareError.message === 'string') {
+                const errorArray = bareError.message.split(',');
+
+                errorArray.forEach(err => {
+                    if (err.toLowerCase().includes('password')) {
+                        setError('password', {message: err})
+                    } else if (err.toLowerCase().includes('Email')){
+                        setError('email', {message: err})
+                    }
+                })
+            }
         }
     }
     return (

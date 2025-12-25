@@ -43,7 +43,9 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Login(LoginDto loginDto)
         {
-            User? user = await _signInManager.UserManager.FindByNameAsync(loginDto.Email);
+            var normalizedEmail = _signInManager.UserManager.NormalizeEmail(loginDto.Email);
+            
+            User? user = await _signInManager.UserManager.FindByEmailAsync(normalizedEmail);
 
             if(user is null) return Unauthorized();
 
@@ -55,7 +57,7 @@ namespace API.Controllers
 
             if (result.Succeeded)
             {
-                // set cookie but dont store it if browser closes
+                // set cookie but dont keep it if browser closes
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return Ok();
             }

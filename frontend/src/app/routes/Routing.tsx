@@ -10,6 +10,7 @@ import ServerError from "../../features/errorTest/ServerError";
 import NotFound from "../../features/errorTest/NotFound";
 import BasketPage from "../../features/basket/BasketPage";
 import LoginForm from "../../features/account/LoginForm";
+import RegisterForm from "../../features/account/RegisterForm";
 
 // defines routes for default path served through RouterProvider in frontend\src\main.tsx
 export const router = createBrowserRouter([
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
             {path: '/server-error', element: <ServerError/>},
             {path: '/notfound', element: <NotFound/>},
             {path: '/login', element: <LoginForm/> },
+            {path: '/register', element: <RegisterForm/> },
             {path: '*', element: <Navigate replace to='/notfound'/>},
         ]
     }

@@ -25,7 +25,7 @@ export default function UserMenu({ user }: Props) {
             <Button
                 onClick={handleClick}
             >
-                {user.username}
+                {user.userName}
             </Button>
             <Menu
                 id="basic-menu"
