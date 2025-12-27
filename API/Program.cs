@@ -1,6 +1,8 @@
 using API.Data;
+using API.Entities;
 using API.Middleware;
 using backend.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
@@ -17,6 +19,14 @@ builder.Services.AddDbContext<StoreContext>(options => {
 });
 builder.Services.AddCors();
 builder.Services.AddTransient<ExceptionMiddleware>();
+builder.Services.AddIdentityApiEndpoints<User>(opt =>
+{
+    opt.User.RequireUniqueEmail = true;
+    opt.SignIn.RequireConfirmedAccount = false;
+})
+    .AddRoles<IdentityRole>() // sets identity-provided role as app's role
+    .AddEntityFrameworkStores<StoreContext>(); //sets current db instance as identity db
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 var app = builder.Build();
@@ -30,8 +40,12 @@ app.UseCors(opt =>
 );
 app.UseHttpsRedirection();
 
-app.MapControllers();
+app.UseAuthentication();
+app.UseAuthorization();
 
-DbInitializer.InitializeDB(app);
+app.MapControllers();
+app.MapIdentityApi<User>();
+
+await DbInitializer.InitializeDB(app);
 
 app.Run();

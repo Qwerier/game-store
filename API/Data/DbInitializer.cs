@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.StaticAssets;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Data
@@ -17,17 +19,48 @@ namespace backend.Data
             return DateTime.SpecifyKind(dt, DateTimeKind.Utc);
         }
         
-        public static void InitializeDB(WebApplication app)
+        public static async Task InitializeDB(WebApplication app)
         {
             using var scope = app.Services.CreateScope();
 
             var context = scope.ServiceProvider.GetRequiredService<StoreContext>()
                 ?? throw new InvalidOperationException("Failed to retrieve store context");
 
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>()
+                ?? throw new InvalidOperationException("Failed to retrieve store context");
+            
             context.Database.Migrate(); // ensures database creation if not and pending migrations
 
             SeedModeData(context);
+            await SeedUserData(userManager);
             SeedGameData(context);
+        }
+
+        private static async Task SeedUserData(UserManager<User> userManager)
+        {
+            if (!userManager.Users.Any())
+            {
+                var member = new User
+                {
+                    UserName="qwerier@yahoo.com",
+                    Email="qwerier@yahoo.com",
+                };
+
+                await userManager.CreateAsync(member, "Pa$$w0rd");
+                await userManager.AddToRoleAsync(member, "Member");
+
+                var admin = new User
+                {
+                    UserName="qwerier@yahoo.com",
+                    Email="qwerier@yahoo.com",
+                };
+
+                await userManager.CreateAsync(admin, "Pa$$w0rd");
+
+                // a bit sceptical on assigning multiple roles to a user but that's what identity
+                // recommends instead of creating new roles
+                await userManager.AddToRolesAsync(admin, ["Member", "Admin"]);
+            }
         }
 
         private static void SeedGameData(StoreContext context)
