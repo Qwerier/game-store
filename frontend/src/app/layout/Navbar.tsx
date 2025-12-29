@@ -52,8 +52,8 @@ export default function NavBar() {
   const { data: basket } = useFetchBasketQuery();
   const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
-  console.log(user);
-  
+  //console.log(user);
+
   return (
     <AppBar position="fixed" sx={{ display: "flex" }}>
       <Toolbar
