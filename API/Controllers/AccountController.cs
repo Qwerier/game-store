@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -94,6 +96,38 @@ namespace API.Controllers
             await _signInManager.SignOutAsync();
 
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpPost("address")]
+        public async Task<ActionResult<Address>> CreateOrUpdateAddress(Address address)
+        {
+            var user = await _signInManager.UserManager.Users
+                .Include(u => u.Address)
+                .FirstOrDefaultAsync(u => u.UserName == User.Identity!.Name);
+            // no such user exists
+            if (user == null) return Unauthorized();
+
+            user.Address = address;
+            var result = await _signInManager.UserManager.UpdateAsync(user);
+
+            if (!result.Succeeded) return BadRequest("Problem updating user address");
+
+            return Ok(user.Address);
+        }
+
+        [Authorize]
+        [HttpGet("address")]
+        public async Task<ActionResult<Address>> GetAdress()
+        {
+            var address = await _signInManager.UserManager.Users
+                .Where(u => u.UserName == User.Identity!.Name)
+                .Select(u => u.Address)
+                .FirstOrDefaultAsync();
+
+            if(address == null) return NoContent();
+
+            return Ok(address);
         }
     }
 }

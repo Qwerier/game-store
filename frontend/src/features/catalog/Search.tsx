@@ -24,7 +24,7 @@ export default function Search() {
           variant='filled'
           fullWidth
           type="search"
-          value={localTerm}
+          value={localTerm} 
           onChange={e => {
             setLocalTerm(e.target.value)
             delayedSearch(e);

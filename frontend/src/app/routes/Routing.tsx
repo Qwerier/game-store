@@ -11,6 +11,8 @@ import NotFound from "../../features/errorTest/NotFound";
 import BasketPage from "../../features/basket/BasketPage";
 import LoginForm from "../../features/account/LoginForm";
 import RegisterForm from "../../features/account/RegisterForm";
+import FrontendAuth from "./FrontendAuth";
+import Checkout from "../../features/checkout/Checkout";
 
 // defines routes for default path served through RouterProvider in frontend\src\main.tsx
 export const router = createBrowserRouter([
@@ -18,6 +20,11 @@ export const router = createBrowserRouter([
         path: '/',
         element: <App/>,
         children: [
+            {
+                element: <FrontendAuth/>, children: [
+                    {path: 'checkout', element: <Checkout></Checkout>},
+                ]
+            },
             {path: '', element: <HomePage/>},
             {path: '/catalog', element: <Catalog/>},
             {path: '/catalog/:id', element: <GameDetails/>}, // component based on a path param

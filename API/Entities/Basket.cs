@@ -16,6 +16,10 @@ namespace API.Entities
 
         public List<BasketItem> Items { get; set; } = [];
 
+        public string? ClientSecret { get; set; } // client communicates with stripe
+
+        public string? PaymentIntentId { get; set; } // in case he modifies basket
+        public int MyProperty { get; set; }
         // prefer this one over other signatures (1)string gameId or 2)BasketItem item)
         // because Basket 1) doesn't have a relationship with Game and 2) manages is own items respectively
         public void AddItem(Game game, int quantity)
