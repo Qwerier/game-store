@@ -57,14 +57,11 @@ namespace API.Controllers
                 lockoutOnFailure: false // momentarily as a control mechanism
             );
 
-            if (result.Succeeded)
-            {
-                // set cookie but dont keep it if browser closes
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                return Ok();
-            }
+            if (!result.Succeeded) return Unauthorized();
 
-            return Unauthorized();
+            // set cookie but dont keep it if browser closes
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return Ok();
         }
 
         [HttpGet("user-info")]
