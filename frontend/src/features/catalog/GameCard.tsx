@@ -41,7 +41,7 @@ export default function GameCard({ game }: Props) {
             variant="h6"
             sx={{color: 'secondary.main'}}
           >
-            €{game.price.toFixed(2)}
+            ${game.price.toFixed(2)}
           </Typography>
         </CardContent>
 

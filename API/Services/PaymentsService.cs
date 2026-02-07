@@ -8,7 +8,7 @@ using API.Extensions;
 
 namespace API.Services
 {
-    public class PaymentsService
+    public class PaymentsService(IConfiguration configuration)
     {
         private readonly IConfiguration configuration;
 

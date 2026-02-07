@@ -47,10 +47,10 @@ export default function BasketItem({item}:Props) {
                     </Typography>
                     <Box display={'flex'} alignItems={'center'}>
                         <Typography sx={{fontSize: predef}}>
-                            € {item.price} x {item.quantity}
+                            $ {item.price} x {item.quantity}
                         </Typography>
                         <Typography sx={{fontSize: predef}}>
-                        {` = € ${item.price * item.quantity}`}
+                        {` = $ ${item.price * item.quantity}`}
                         </Typography>
                     </Box>
 
