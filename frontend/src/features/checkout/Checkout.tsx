@@ -6,10 +6,10 @@ export default function Checkout() {
   return (
     <Grid container spacing={2}>
       <Grid size={8}>
-        <CheckoutStepper/>
+        <CheckoutStepper />
       </Grid>
       <Grid size={4}>
-        <OrderSummary/>
+        <OrderSummary />
       </Grid>
     </Grid>
   )

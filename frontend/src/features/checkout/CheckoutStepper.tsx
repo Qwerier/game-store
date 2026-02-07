@@ -30,10 +30,10 @@ export default function CheckoutStepper() {
                     Address
                 </Box>
                 <Box sx={{ display: activeStep === 1 ? 'block' : 'none' }}>
-                    Address
+                    Payment
                 </Box>
                 <Box sx={{ display: activeStep === 2 ? 'block' : 'none' }}>
-                    Address
+                    Review
                 </Box>
             </Box>
 
