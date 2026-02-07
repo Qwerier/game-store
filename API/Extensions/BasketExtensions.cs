@@ -12,6 +12,8 @@ namespace API.Extensions
         public static BasketDto ToDto(this Basket basket){
             return new BasketDto{
                 BasketId = basket.CookieId,
+                ClientSecret = basket.ClientSecret,
+                PaymentIntentId = basket.PaymentIntentId,
                 Items = basket.Items.Select(item => new BasketItemDto{
                     GameId = item.GameId,
                     Name = item.Game.Name,
