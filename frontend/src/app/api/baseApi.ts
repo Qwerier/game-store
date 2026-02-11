@@ -24,7 +24,7 @@ type ErrorList = {
 }
 
 const customBaseQuery = fetchBaseQuery({
-    baseUrl: 'https://localhost:5200/api',
+    baseUrl: import.meta.env.VITE_API_URL,
     credentials: 'include', // include cookies for cross-origin requests
 });
 

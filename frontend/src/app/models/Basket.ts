@@ -3,6 +3,8 @@ import { Game } from "./Game";
 export interface Basket {
   basketId: string
   items: Item[]
+  clientSecret?: string
+  paymentIntentId?: string
 }
 
 export class Item {

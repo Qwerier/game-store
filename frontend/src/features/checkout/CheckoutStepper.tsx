@@ -1,5 +1,5 @@
 import { Box, Button, Paper, Step, StepLabel, Stepper } from '@mui/material'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 const options = ["Address", "Payment", "Review"];
 
