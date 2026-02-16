@@ -4,19 +4,32 @@ import OrderSummary from "../../shared/components/OrderSummary";
 import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js"
 import { useFetchBasketQuery } from "../basket/basketApi";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useCreatePaymentIntentMutation } from "./checkoutApi";
+import { useAppSelector } from "../../app/store/store";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
 export default function Checkout() {
   const { data: basket } = useFetchBasketQuery(); // should retrieve clientsecret
   const [createPaymentIntent, {isLoading}] = useCreatePaymentIntentMutation();
+  const {isDarkMode} = useAppSelector(state => state.ui);
+  const created = useRef(false);
+
+  useEffect(() => {
+    if(!created.current) createPaymentIntent();
+    created.current = true;
+  }, [createPaymentIntent]);
+  
   const options: StripeElementsOptions | undefined = useMemo(() => {
     if (!basket?.clientSecret) return undefined;
     return {
-      clientSecret: basket.clientSecret
+      clientSecret: basket.clientSecret,
+      appearance: {
+        labels: 'floating',
+        theme: isDarkMode? 'night' : 'stripe'
+      }
     }
-  }, [basket?.clientSecret])
+  }, [basket?.clientSecret, isDarkMode])
 
   return (
     <Grid container spacing={2}>

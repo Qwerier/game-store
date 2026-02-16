@@ -28,4 +28,7 @@ export const checkoutApi = createApi({
             }
         })
     })
-})
+});
+
+
+export const {useCreatePaymentIntentMutation} = checkoutApi;
