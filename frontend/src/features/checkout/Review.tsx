@@ -1,4 +1,3 @@
-import React from 'react'
 import { useFetchBasketQuery } from '../basket/basketApi'
 import { Box, Divider, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 

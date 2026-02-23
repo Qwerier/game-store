@@ -7,6 +7,7 @@ import { useFetchBasketQuery } from "../basket/basketApi";
 import { useEffect, useMemo, useRef } from "react";
 import { useCreatePaymentIntentMutation } from "./checkoutApi";
 import { useAppSelector } from "../../app/store/store";
+
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
 export default function Checkout() {
