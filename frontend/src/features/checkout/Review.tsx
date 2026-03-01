@@ -1,8 +1,27 @@
-import { useFetchBasketQuery } from '../basket/basketApi'
+import { ConfirmationToken } from '@stripe/stripe-js';
 import { Box, Divider, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
+import { useBasketMetadata } from '../../app/lib/hooks/useBasketMetadata';
 
-export default function Review() {
-    const { data: basket } = useFetchBasketQuery();
+type Props = {
+    confirmationToken: ConfirmationToken | null;
+}
+
+export default function Review({confirmationToken}: Props) {
+    const { basket } = useBasketMetadata();
+
+    const addressFormatting = () => {
+        if(!confirmationToken?.shipping) return '';
+        const {name, address} = confirmationToken.shipping;
+        return `${name}, ${address?.line1}, ${address?.city}, ${address?.state},
+            ${address?.postal_code}, ${address?.country}`
+    }
+
+    const paymentFormatting = () => {
+        if(!confirmationToken?.payment_method_preview.card) return '';
+        const {card} = confirmationToken.payment_method_preview;
+        return `${card.brand.toUpperCase()}, **** **** **** ${card.last4}, 
+            Exp: ${card.exp_month}/${card.exp_year}`
+    }
 
     return (
         <div>
@@ -15,14 +34,14 @@ export default function Review() {
                         Shipping address
                     </Typography>
                     <Typography component={'dt'} color={'textSecondary'}>
-                        Address here
+                        {addressFormatting()}
                     </Typography>
 
                     <Typography component={'dt'} fontWeight={'medium'}>
                         Payment details
                     </Typography>
                     <Typography component={'dt'} color={'textSecondary'}>
-                        Payment details here
+                        {paymentFormatting()}
                     </Typography>
                 </dl>
             </Box>

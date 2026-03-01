@@ -16,6 +16,7 @@ export default function Checkout() {
   const {isDarkMode} = useAppSelector(state => state.ui);
   const created = useRef(false);
 
+  // paymentIntent is created only when first accessing checkout
   useEffect(() => {
     if(!created.current) createPaymentIntent();
     created.current = true;
