@@ -8,6 +8,8 @@ import { ConfirmationToken, StripeAddressElementChangeEvent, StripePaymentElemen
 import { useBasketMetadata } from '../../app/lib/hooks/useBasketMetadata';
 import { currencyFormat } from '../../app/lib/util';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import LoadingButton from '../../shared/components/LoadingButton';
 
 const options = ["Address", "Payment", "Review"];
 
@@ -16,47 +18,91 @@ export default function CheckoutStepper() {
     // safe deconstruction as empty object if it fails
     const { data: { name, ...restAddress } = {} as Address, isLoading } = useFetchAddressQuery();
     const [updateAddress] = useUpdateAddressMutation();
-    const [saveAddressChecked, setSaveAddressChecked] = useState(false);
+
     const elements = useElements();
     const stripe = useStripe();
+    const navigator = useNavigate();
+    // local stepper state
+    const [saveAddressChecked, setSaveAddressChecked] = useState(false);
     const [confirmationToken, setConfirmationToken] = useState<ConfirmationToken | null>(null);
-
     const [addressCompleted, setAddressCompleted] = useState(false);
     const [paymentCompleted, setPaymentCompleted] = useState(false);
-    const {subtotal, deliveryFee} = useBasketMetadata();
+    const [submitting, setSubmitting] = useState(false); // indicates if its under submission (for loading purposes)
+
+    const { basket, subtotal, deliveryFee, clearBasket } = useBasketMetadata();
+
     const handleNext = async () => {
         // only when user moves on, otherwise on every check it would hit the server
         if (activeStep === 0 && saveAddressChecked && elements) {
             const address = await getStripeAddress();
-            if(address) await updateAddress(address);
+            if (address) await updateAddress(address);
         }
         // if moving on from card details to review
         if (activeStep === 1) {
-            if(!elements || !stripe) return;
+            if (!elements || !stripe) return;
             const result = await elements.submit(); // check if everything's fine and collect data
-            if(result.error) return toast.error(result.error.message);
+            if (result.error) return toast.error(result.error.message);
 
-            const stripeResult = await stripe.createConfirmationToken({elements});
-            if(stripeResult.error) return toast.error(stripeResult.error.message);
+            const stripeResult = await stripe.createConfirmationToken({ elements });
+            if (stripeResult.error) return toast.error(stripeResult.error.message);
             setConfirmationToken(stripeResult.confirmationToken);
+        }
+
+        if (activeStep === 2) {
+            await confirmPayment();
         }
 
         setActiveStep(step => step + 1);
     }
 
+    const handleBack = () => setActiveStep(step => step - 1);
+
     const getStripeAddress = async () => {
         const addressElement = elements?.getElement('address');
-        if(!addressElement) return null;
-        const {value: {name, address}} = await addressElement.getValue();
+        if (!addressElement) return null;
+        const { value: { name, address } } = await addressElement.getValue();
 
         // if both are defined then return them as the expected format
-        if(name && address) return {name, ...address}
+        if (name && address) return { name, ...address }
         return null;
     }
 
+    const confirmPayment = async () => {
+        setSubmitting(true);
+        try {
+            if (!confirmationToken || !basket?.clientSecret) {
+                throw Error("Unable to process payment");
+            }
+            const paymentResult = await stripe?.confirmPayment({
+                clientSecret: basket.clientSecret,
+                redirect: 'if_required',
+                confirmParams: {
+                    confirmation_token: confirmationToken.id
+                }
+            });
 
-    const handleBack = () => setActiveStep(step => step - 1);
-
+            if (paymentResult?.paymentIntent?.status === 'succeeded') {
+                navigator('/checkout/success');
+                clearBasket();
+            }
+            else if (paymentResult?.error) {
+                throw new Error(paymentResult.error.message);
+            }
+            // if for whatever reason a payment is rejected or not transmitted
+            else {
+                throw new Error('Something went wrong');
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message);
+            }
+            // backtracks from the current operation
+            setActiveStep(step => step - 1);
+        }
+        finally {
+            setSubmitting(false);
+        }
+    }
 
     if (isLoading) return <Typography variant='h6'>Loading checkout...</Typography>
 
@@ -82,15 +128,15 @@ export default function CheckoutStepper() {
                             name: name,
                             address: restAddress
                         }
-                    }} 
-                    onChange={
-                        (event: StripeAddressElementChangeEvent)=> setAddressCompleted(event.complete)
-                    }/>
+                    }}
+                        onChange={
+                            (event: StripeAddressElementChangeEvent) => setAddressCompleted(event.complete)
+                        } />
                     <FormControlLabel
-                        sx={{display: 'flex', justifyContent: 'end'}}
-                        control={<Checkbox 
-                            checked={saveAddressChecked} 
-                            onChange={e => setSaveAddressChecked(e.target.checked)} 
+                        sx={{ display: 'flex', justifyContent: 'end' }}
+                        control={<Checkbox
+                            checked={saveAddressChecked}
+                            onChange={e => setSaveAddressChecked(e.target.checked)}
                         />}
                         label='Save as default address'
                     />
@@ -107,12 +153,24 @@ export default function CheckoutStepper() {
 
             <Box display={'flex'} padding={2} justifyContent={'space-between'}>
                 <Button onClick={handleBack}>Back</Button>
-                <Button 
+                <Button
                     onClick={handleNext}
-                    disabled={(activeStep === 0 && !addressCompleted) || (activeStep === 1 && !paymentCompleted)}
-                    >
-                        {activeStep === options.length - 1 ? `Pay ${currencyFormat(subtotal+deliveryFee)}`: `Next`}
+                    disabled={(activeStep === 0 && !addressCompleted) ||
+                        (activeStep === 1 && !paymentCompleted) ||
+                        submitting
+                    }
+                >
+                    {activeStep === options.length - 1 ? `Pay ${currencyFormat(subtotal + deliveryFee)}` : `Next`}
                 </Button>
+                {/* <LoadingButton
+                    isLoading={submitting}
+                    onClickEvent={handleNext}
+                    isDisabled={(activeStep === 0 && !addressCompleted) ||
+                        (activeStep === 1 && !paymentCompleted) ||
+                        submitting
+                    }
+                    label={activeStep === options.length - 1 ? `Pay ${currencyFormat(subtotal + deliveryFee)}` : `Next`}
+                /> */}
             </Box>
         </Paper>
     )
