@@ -27,14 +27,13 @@ namespace API.Controllers
             this.paymentsService = paymentsService;
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<ActionResult<BasketDto>> CreateOrUpdatePayment()
         {
             Basket? basket = await db.Baskets
                 .Include(b => b.Items)
                 .ThenInclude(i => i.Game)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(basket => basket.CookieId == Request.Cookies["basketCookieId"]);
             
             if (basket == null) return BadRequest("Problem with the basket");
 

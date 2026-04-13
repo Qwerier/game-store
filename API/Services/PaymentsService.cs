@@ -10,11 +10,9 @@ namespace API.Services
 {
     public class PaymentsService(IConfiguration configuration)
     {
-        private readonly IConfiguration configuration;
-
         public async Task<PaymentIntent> CreateOrUpdatePaymentIntent(Basket basket)
         {
-            StripeConfiguration.ApiKey = configuration["Stripe__SecretKey"];
+            StripeConfiguration.ApiKey = configuration["Stripe:SecretKey"];
 
             PaymentIntentService service = new();
             PaymentIntent intent = new ();
