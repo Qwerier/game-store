@@ -7,16 +7,16 @@ export const checkoutApi = createApi({
     reducerPath: 'checkoutApi',
     baseQuery: baseQueryWithErrorHandling,
     endpoints: (builder) => ({
-        createPaymentIntent: builder.mutation<Basket, void> ({
+        createPaymentIntent: builder.mutation<Basket, void>({
             query: () => {
                 return {
                     url: 'payments',
                     method: 'POST'
                 }
             },
-            onQueryStarted: async (_, {dispatch, queryFulfilled}) => {
+            onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
                 try {
-                    const {data} = await queryFulfilled;
+                    const { data } = await queryFulfilled;
                     dispatch(
                         basketApi.util.updateQueryData('fetchBasket', undefined, (draft) => {
                             draft.clientSecret = data.clientSecret
@@ -31,4 +31,4 @@ export const checkoutApi = createApi({
 });
 
 
-export const {useCreatePaymentIntentMutation} = checkoutApi;
+export const { useCreatePaymentIntentMutation } = checkoutApi;

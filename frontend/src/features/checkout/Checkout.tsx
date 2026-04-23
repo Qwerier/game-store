@@ -35,7 +35,7 @@ export default function Checkout() {
   return (
     <Grid container spacing={2}>
       <Grid size={8}>
-        {!stripePromise || !options ? (
+        {!stripePromise || !options || isLoading ? (
           <Typography variant="h6">Loading Checkout</Typography>
         ) : (
           <Elements stripe={stripePromise} options={options}>
