@@ -15,18 +15,13 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PaymentsController : ControllerBase
+    public class PaymentsController(StoreContext db, PaymentsService paymentsService) : ControllerBase
     {
-        public readonly StoreContext db;
+        public readonly StoreContext db = db;
 
-        public PaymentsService paymentsService;
+        public PaymentsService paymentsService = paymentsService;
 
-        public PaymentsController(StoreContext db, PaymentsService paymentsService)
-        {
-            this.db = db;
-            this.paymentsService = paymentsService;
-        }
-
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<BasketDto>> CreateOrUpdatePayment()
         {

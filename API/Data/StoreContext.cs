@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
+using API.Entities.OrderSubtypes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
-    public class StoreContext : IdentityDbContext<User>
+    public class StoreContext(DbContextOptions<StoreContext> options) : IdentityDbContext<User>(options)
     {
         public required DbSet<Game> Games { get; set; }
         
         public required DbSet<Mode> Modes {get; set; }
         
         public required DbSet<Basket> Baskets { get; set; }
-        public StoreContext(DbContextOptions<StoreContext> options) : base(options)
-        {
 
-        }
-
+        public required DbSet<Order> Orders { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
