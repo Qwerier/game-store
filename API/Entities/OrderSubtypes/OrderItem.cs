@@ -7,7 +7,7 @@ namespace API.Entities.OrderSubtypes
 {
     public class OrderItem
     {
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         public required GameItemOrdered ItemOrdered { get; set; }
     

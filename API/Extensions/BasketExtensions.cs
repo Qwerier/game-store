@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions
 {
@@ -24,6 +25,15 @@ namespace API.Extensions
                     Quantity = item.Quantity
                 }).ToList()
             };
+        }
+
+        public static async Task<Basket> GetBasket(this IQueryable<Basket> query, string? basketCookieId)
+        {
+            return await query
+                .Include(b => b.Items)
+                .ThenInclude(b => b.Game)
+                .FirstOrDefaultAsync(b => b.CookieId == basketCookieId)
+                    ?? throw new Exception("Cannot get basket");
         }
     }
 }

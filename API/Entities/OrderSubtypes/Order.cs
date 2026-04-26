@@ -9,7 +9,7 @@ namespace API.Entities.OrderSubtypes
     [Table("Order")]
     public class Order
     {
-        public string Id { get; set; } = null!;
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         // used for retrieval
         public required string BuyerEmail { get; set; }

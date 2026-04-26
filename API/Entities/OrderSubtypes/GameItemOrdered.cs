@@ -10,7 +10,7 @@ namespace API.Entities.OrderSubtypes
     [Owned]
     public class GameItemOrdered
     {
-        public string GameId { get; set; } = null!;
+        public required string GameId { get; set; } = Guid.NewGuid().ToString();
 
         public required string Name { get; set; }
 
