@@ -18,7 +18,6 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
-        private ILogger<OrdersController> logger;
         private readonly StoreContext context;
 
         public OrdersController(StoreContext storeContext)
@@ -28,26 +27,28 @@ namespace API.Controllers
         
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<List<Order>>> GetOrders()
+        public async Task<ActionResult<List<OrderDto>>> GetOrders()
         {
             string? email = User.FindFirstValue(ClaimTypes.Email);
             if (email is null) return Unauthorized();
             
             var orders = await context.Orders
-                .Include(o => o.OrderItems)
+                .ProjectToDto()
                 .Where(o => o.BuyerEmail == email)
                 .ToListAsync();
 
             return orders;
         }
+
         [Authorize]
         [HttpGet("{id:string}")]
-        public async Task<ActionResult<Order>> GetOrderDetails(string id)
+        public async Task<ActionResult<OrderDto>> GetOrderDetails(string id)
         {
             string? email = User.FindFirstValue(ClaimTypes.Email);
             if (email is null) return Unauthorized();
 
             var order = await context.Orders
+                .ProjectToDto()
                 .Where(o => o.BuyerEmail == email && o.Id == id)
                 .FirstOrDefaultAsync();
             
@@ -58,15 +59,16 @@ namespace API.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<Order>> CreateOrder(CreateOrderDto createOrderDto)
+        public async Task<ActionResult<OrderDto>> CreateOrder(CreateOrderDto createOrderDto)
         {
             var basket = await context.Baskets.GetBasket(Request.Cookies["basketCookieId"]);
-            if (basket == null || basket.Items.Count == 0)
+            if (basket == null || basket.Items.Count == 0 || string.IsNullOrEmpty(basket.PaymentIntentId))
             {
                 return BadRequest("Basket is empty or not found");
             }
             // populate order lines
             var items = CreateOrderItems(basket.Items);
+            if (items is null) return BadRequest("One or some items are out of stock");
 
             var subtotal = items.Sum(i => i.Quantity * i.Price);
             var deliveryFee = CalculteDeliveryFee(subtotal);
@@ -92,7 +94,7 @@ namespace API.Controllers
 
             if (!result) return BadRequest("Problem creating order");
 
-            return CreatedAtAction(nameof(GetOrderDetails), new {id = order.Id}, order);
+            return CreatedAtAction(nameof(GetOrderDetails), new {id = order.Id}, order.ToDto());
         }
 
         private static decimal CalculteDeliveryFee(decimal subtotal)
@@ -100,20 +102,34 @@ namespace API.Controllers
             return subtotal > 100 ? 0 : 5;
         }
 
-        // public int Id { get; set; }
-        // public required GameItemOrdered ItemOrdered { get; set; }
-        // public decimal Price { get; set; }
-        // public int Quantity { get; set; }
-        private List<OrderItem> CreateOrderItems(List<BasketItem> items)
+        private List<OrderItem>? CreateOrderItems(List<BasketItem> items)
         {
-            return items.Select(i => 
+            // check if any item quantity is higher than what's in stock
+            // that means order/shipping cant be carried out
+            bool result = items.Any(i => i.Quantity > i.Game.QuantityInStock);
+            if(result) return null;
+
+            var receipt = items.Select(i => 
                 new OrderItem
                 {
-                    ItemOrdered = new GameItemOrdered{ GameId = i.GameId, Name = i.Game.Name, PictureUrl = i.Game.PictureUrl},
+                    ItemOrdered = new GameItemOrdered
+                    { 
+                        GameId = i.GameId, 
+                        Name = i.Game.Name, 
+                        PictureUrl = i.Game.PictureUrl
+                    },
                     Price = i.Game.Price,
                     Quantity = i.Quantity
                 }
             ).ToList();
+
+            // update quantity in DB 
+            foreach(var i in items)
+            {
+                i.Game.QuantityInStock -= i.Quantity;
+            }
+            
+            return receipt;
         }
     }
 
