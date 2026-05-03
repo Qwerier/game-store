@@ -14,6 +14,7 @@ import RegisterForm from "../../features/account/RegisterForm";
 import FrontendAuth from "./FrontendAuth";
 import Checkout from "../../features/checkout/Checkout";
 import CheckoutSuccess from "../../features/checkout/CheckoutSuccess";
+import OrdersPage from "../../features/orders/OrdersPage";
 
 // defines routes for default path served through RouterProvider in frontend\src\main.tsx
 export const router = createBrowserRouter([
@@ -24,7 +25,8 @@ export const router = createBrowserRouter([
             {
                 element: <FrontendAuth/>, children: [
                     {path: 'checkout', element: <Checkout></Checkout>},
-                    {path: 'checkout/success', element: <CheckoutSuccess></CheckoutSuccess>}
+                    {path: 'checkout/success', element: <CheckoutSuccess/>}
+                    {path: 'orders', element:<OrdersPage/>}
                 ]
             },
             {path: '', element: <HomePage/>},
