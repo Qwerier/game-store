@@ -24,7 +24,7 @@ namespace API.Entities.OrderSubtypes
 
         public decimal DeliveryFee { get; set; }
 
-        public string? PaymentIntentId { get; set; }
+        public required string PaymentIntentId { get; set; }
 
         public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
 

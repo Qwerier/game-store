@@ -10,6 +10,7 @@ import { currencyFormat } from '../../app/lib/util';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import LoadingButton from '../../shared/components/LoadingButton';
+import { useCreateOrderMutation } from '../orders/orderApi';
 
 const options = ["Address", "Payment", "Review"];
 
@@ -18,7 +19,7 @@ export default function CheckoutStepper() {
     // safe deconstruction as empty object if it fails
     const { data: { name, ...restAddress } = {} as Address, isLoading } = useFetchAddressQuery();
     const [updateAddress] = useUpdateAddressMutation();
-
+    const [createOrder] = useCreateOrderMutation();
     const elements = useElements();
     const stripe = useStripe();
     const navigator = useNavigate();
@@ -67,12 +68,23 @@ export default function CheckoutStepper() {
         return null;
     }
 
+    const createOrderObject = async () => {
+        const shippingAddress = await getStripeAddress();
+        const paymentSummary = confirmationToken?.payment_method_preview.card;
+
+        if(!shippingAddress || !paymentSummary) throw new Error("Problem creating order");
+
+        return {shippingAddress, paymentSummary};
+    }
     const confirmPayment = async () => {
         setSubmitting(true);
         try {
             if (!confirmationToken || !basket?.clientSecret) {
                 throw Error("Unable to process payment");
             }
+            const orderObject = await createOrderObject();
+            const order = await createOrder(orderObject);
+
             const paymentResult = await stripe?.confirmPayment({
                 clientSecret: basket.clientSecret,
                 redirect: 'if_required',
@@ -82,7 +94,7 @@ export default function CheckoutStepper() {
             });
 
             if (paymentResult?.paymentIntent?.status === 'succeeded') {
-                navigator('/checkout/success');
+                navigator('/checkout/success', {state:order});
                 clearBasket();
             }
             else if (paymentResult?.error) {

@@ -89,6 +89,7 @@ export const basketApi = createApi({
                 dispatch(
                     basketApi.util.updateQueryData('fetchBasket', undefined, (draft) => {
                         draft.items = [];
+                        draft.basketId = ''; // otherwise basket will persist even though paid
                     })
                 );
                 Cookies.remove('basketCookieId');

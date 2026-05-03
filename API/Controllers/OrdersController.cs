@@ -41,7 +41,7 @@ namespace API.Controllers
         }
 
         [Authorize]
-        [HttpGet("{id:string}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<OrderDto>> GetOrderDetails(string id)
         {
             string? email = User.FindFirstValue(ClaimTypes.Email);

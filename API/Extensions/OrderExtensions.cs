@@ -11,6 +11,7 @@ namespace API.Extensions
     public static class OrderExtensions
     {
         // project to a dto by receiving an IQueryable
+        // cannot refactor it as EF Core places constraints
         public static IQueryable<OrderDto> ProjectToDto(this IQueryable<Order> query)
         {
             return query.Select(ord => new OrderDto
@@ -21,7 +22,7 @@ namespace API.Extensions
                 OrderDate = ord.OrderDate,
                 Subtotal = ord.Subtotal,
                 DeliveryFee = ord.DeliveryFee,
-                OrderStatus = ord.OrderStatus,
+                OrderStatus = ord.OrderStatus.ToString(),
                 PaymentSummary = ord.PaymentSummary,
                 Total = ord.GetTotal(),
                 OrderItems = ord.OrderItems.Select(i => new OrderItemDto
@@ -46,7 +47,7 @@ namespace API.Extensions
                 OrderDate = ord.OrderDate,
                 Subtotal = ord.Subtotal,
                 DeliveryFee = ord.DeliveryFee,
-                OrderStatus = ord.OrderStatus,
+                OrderStatus = ord.OrderStatus.ToString(),
                 PaymentSummary = ord.PaymentSummary,
                 Total = ord.GetTotal(),
                 OrderItems = ord.OrderItems.Select(i => new OrderItemDto

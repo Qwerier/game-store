@@ -22,7 +22,7 @@ namespace API.DTOs
         public decimal Total { get; set; }
         public decimal DeliveryFee { get; set; }
 
-        public OrderStatus OrderStatus { get; set; }
+        public required string OrderStatus { get; set; }
 
         public required PaymentSummary PaymentSummary { get; set; }
     }
